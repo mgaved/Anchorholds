@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Salsa Beacons</string>
+    <string name="beaconInfo">Beacon info</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_beacon_info">BeaconInfoActivity</string>
+
+    <string name="region_1">JLB room 021</string>
+    <string name="region_2">JLB ground floor Nexus</string>
+
+    <string name="beacon_1_1">Salsa blog</string>
+
+    <string name="beacon_1_2">Idiom example</string>
+</resources>

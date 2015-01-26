@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<beacon>
+    <content type="idiom">
+        <title>Idiom of the Week</title>
+        <idiom>Don't pull my leg!</idiom>
+        <explanation>Don't try to fool me!</explanation>
+        <example><![CDATA[<p>A: The teacher is really angry with you!</p>
+<p>B: What? Are you pulling my leg?</p>
+<p>A: Yes, I’m only kidding.</p>
+<p>B: Hey, don’t joke with me like that!</p>]]></example>
+    </content>
+    <reference>
+        <uri>https://www.facebook.com/notes/british-council-singapore/idiom-of-the-week-dont-pull-my-leg/10150129800235478</uri>
+    </reference>
+</beacon>
