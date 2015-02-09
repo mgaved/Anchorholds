@@ -5,16 +5,18 @@
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
         android:name=".BeaconReferenceApplication"
         android:allowBackup="true"
-        android:icon="@drawable/ic_launcher"
+        android:icon="@drawable/ic_launch_orange"
+        android:logo="@drawable/ic_black_salsa"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
             android:name=".MonitoringActivity"
-            android:label="@string/app_name"
+            android:label="@string/main_activity"
             android:launchMode="singleTask" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

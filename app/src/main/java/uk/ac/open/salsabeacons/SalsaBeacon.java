@@ -1,16 +1,12 @@
 package uk.ac.open.salsabeacons;
 
 import android.app.Application;
+import android.content.res.Resources;
 import android.content.res.XmlResourceParser;
 import android.net.Uri;
-import android.text.Html;
-import android.text.Spanned;
 import android.util.Log;
 
-import org.altbeacon.beacon.Beacon;
 import org.xmlpull.v1.XmlPullParserException;
-
-import java.util.HashMap;
 
 /**
  * Created by rmg29 on 22/01/2015.
@@ -24,10 +20,10 @@ public class SalsaBeacon {
   private String mBeaconId;
   private XmlResourceParser mParser;
   private Boolean mIsUri = null;
-  private HashMap mContent = new HashMap();
+  private Uri mUri;
   private String mContentType;
 
-  protected SalsaBeacon(int areaId, int individualId) {
+  protected SalsaBeacon(int areaId, int individualId) throws Resources.NotFoundException {
     mRegionId = SalsaBeacon.REGION_ID_PREFIX + areaId;
     mBeaconId = SalsaBeacon.BEACON_ID_PREFIX +  areaId + "_" + individualId;
     Application application = (Application) BeaconReferenceApplication.getContext();
@@ -41,14 +37,11 @@ public class SalsaBeacon {
     mRegionId = SalsaBeacon.REGION_ID_PREFIX + areaId;
     mBeaconId = SalsaBeacon.BEACON_ID_PREFIX +  areaId + "_" + individualId;
     Application application = (Application) BeaconReferenceApplication.getContext();
-    int id = application.getResources().getIdentifier(mBeaconId, "xml", "uk.ac.open.salsabeacons");
     mParser = application.getResources().getXml(application.getResources().getIdentifier(mBeaconId, "xml", "uk.ac.open.salsabeacons"));
   }
 
   private void parseContent() {
     Boolean validRoot = false;
-    String stringKey = null;
-    String valueType = "string";
     mIsUri = false;
     try {
       while(XmlResourceParser.END_DOCUMENT != mParser.next()) {
@@ -60,7 +53,6 @@ public class SalsaBeacon {
 
           case XmlResourceParser.START_TAG:
             Log.d(TAG+" START_TAG", "'"+mParser.getName()+"'");
-            valueType = "string";
             if (!mParser.getName().equals("beacon") && !validRoot) {
               throw new XmlPullParserException("Invalid root element");
             }
@@ -68,28 +60,17 @@ public class SalsaBeacon {
               validRoot = true;
             }
             else if (mParser.getName().equals("uri")) {
-              valueType = "uri";
               if(mParser.getDepth() == 2) {
                 mIsUri = true;
                 mContentType = mParser.getName();
-                stringKey = mParser.getName();
               }
-            }
-            else if (mParser.getName().equals("content")) {
-              mContentType = mParser.getAttributeValue(null, "type");
-            }
-            if(mContentType == null || mContentType.equals("content") || !mParser.getName().equals("uri")) {
-              stringKey = mParser.getName();
             }
             continue;
 
           case XmlResourceParser.TEXT:
             Log.d(TAG+" TEXT", mParser.getText());
-            if(valueType.equals("uri")) {
-              Log.d(TAG+" stringKey", stringKey);
-              mContent.put(stringKey, Uri.parse(mParser.getText()));
-            } else {
-              mContent.put(stringKey, mParser.getText());
+            if(mIsUri) {
+              mUri = Uri.parse(mParser.getText());
             }
             continue;
 
@@ -109,37 +90,36 @@ public class SalsaBeacon {
     return mBeaconId;
   }
 
-  public boolean isUri() {
-    if(mIsUri == null) {
+  public boolean isResource() {
+    if(mUri == null) {
       parseContent();
     }
-    return mIsUri;
+    if(mUri.getScheme().equals("file")) {
+      return true;
+    }
+    return false;
   }
 
   public Uri getUri() {
-    if(mIsUri == null) {
+    if(mUri == null) {
       parseContent();
     }
-    return (Uri) mContent.get("uri");
+    return mUri;
   }
 
-  public Spanned getHtml() {
-    if(mIsUri == null) {
-      parseContent();
-    }
-    String htmlString = "<h1>" + mContent.get("title") + "</h1>"
-        + "<p>" + mContent.get("idiom") + "</p>"
-        + "<p>" + mContent.get("explanation") + "</p>"
-        + mContent.get("example");
-
-    return Html.fromHtml(htmlString);
+  @Override
+  public int hashCode() {
+    int result = 17;
+    result = 31 * result + mRegionId.hashCode();
+    result = 31 * result + mBeaconId.hashCode();
+    return result;
   }
 
   @Override
   public boolean equals(Object o) {
     if(o instanceof SalsaBeacon) {
       SalsaBeacon sb = (SalsaBeacon) o;
-      if (sb.getId() == this.getId()) return true;
+      if (sb.getId().equals(this.getId())) return true;
     }
     return false;
   }

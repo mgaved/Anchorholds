@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Salsa balises</string>
+    <string name="main_activity">balises</string>
+    <string name="beaconInfo">Informations de balise</string>
+    <string name="action_settings">Paramètres</string>
+    <string name="title_activity_beacon_info">Informations de balise</string>
+    <string name="scanning">Recherche de balises ...</string>
+    <string name="notification">Balise été détecté</string>
+
+    <string name="region_1">Creative Suite</string>
+
+    <string name="beacon_1_4">Blog Salsa</string>
+    <string name="beacon_1_3">Sur le bus</string>
+
+    <string name="region_2">JLB rez de chaussée Nexus</string>
+
+</resources>

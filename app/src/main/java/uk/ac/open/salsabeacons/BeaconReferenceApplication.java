@@ -7,8 +7,12 @@ import android.app.TaskStackBuilder;
 import android.content.Context;
 import android.content.Intent;
 import android.app.Notification;
+import android.content.res.Resources;
+import android.graphics.Typeface;
 import android.os.AsyncTask;
+import android.os.PowerManager;
 import android.os.RemoteException;
+import android.os.Vibrator;
 import android.util.Log;
 import android.widget.ArrayAdapter;
 
@@ -23,41 +27,46 @@ import org.altbeacon.beacon.startup.RegionBootstrap;
 import org.altbeacon.beacon.startup.BootstrapNotifier;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
+import java.util.Hashtable;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Queue;
+import java.util.Map;
+import java.util.Set;
 
 /**
- * Created by dyoung on 12/13/13.
+ * Created by rmg29 on 22/01/2015.
  */
 public class BeaconReferenceApplication extends Application implements BootstrapNotifier, RangeNotifier {
-  private static final String TAG = "SALSA APP";
+  private static final String TAG = "BeaconReferenceApplication";
   private static final String SALSABEACONSID = "46A88354-06AC-4743-A762-901C0717596E";
   private static Context mContext;
   public final static String SALSA_BEACON_ID = "uk.ac.open.salsabeacons.SALSA_BEACON_ID";
+  private Typeface fontAwesome;
   private RegionBootstrap regionBootstrap;
   private BackgroundPowerSaver backgroundPowerSaver;
-  private boolean haveDetectedBeaconsSinceBoot = false;
   private MonitoringActivity monitoringActivity = null;
   private BeaconManager beaconManager = null;
   private ArrayAdapter beaconAdapter = null;
-  private List<SalsaBeacon> currentBeacons = new ArrayList<SalsaBeacon>();//new HashMap();
+  private List<SalsaBeacon> currentBeacons = new ArrayList<SalsaBeacon>();
+  private Hashtable<SalsaBeacon, Long> mBeaconBuffer = new Hashtable<SalsaBeacon, Long>();
+  private ArrayList<SalsaBeacon> mBeaconScreenOffBuffer = new ArrayList<SalsaBeacon>();
   private LifecycleHandler mLifecycleHandler = null;
 
   public void onCreate() {
     super.onCreate();
     mContext = this;
+    fontAwesome = Typeface.createFromAsset(getAssets(), "font-awesome-4.3.0/fonts/fontawesome-webfont.ttf");
     mLifecycleHandler = new LifecycleHandler();
     registerActivityLifecycleCallbacks(mLifecycleHandler);
     beaconManager = org.altbeacon.beacon.BeaconManager.getInstanceForApplication(this);
-    beaconManager.setForegroundScanPeriod(2000);
-    beaconAdapter = new ArrayAdapter<SalsaBeacon>(this, android.R.layout.simple_expandable_list_item_1);
+    beaconManager.setForegroundScanPeriod(1800);
+    beaconManager.setForegroundBetweenScanPeriod(300);
+    beaconManager.setBackgroundScanPeriod(2200);
+    beaconManager.setBackgroundBetweenScanPeriod(10000);
+    beaconAdapter = new BeaconArrayAdapter<SalsaBeacon>(this, R.layout.beacon_list);
     // By default the AndroidBeaconLibrary will only find AltBeacons.  If you wish to make it
     // find a different type of beacon, you must specify the byte layout for that beacon's
     // advertisement with a line like below.  The example shows how to find a beacon with the
@@ -83,10 +92,10 @@ public class BeaconReferenceApplication extends Application implements Bootstrap
     // class will automatically cause the BeaconLibrary to save battery whenever the application
     // is not visible.  This reduces bluetooth power usage by about 60%
     backgroundPowerSaver = new BackgroundPowerSaver(this);
+  }
 
-    // If you wish to test beacon detection in the Android Emulator, you can use code like this:
-    // BeaconManager.setBeaconSimulator(new TimedBeaconSimulator() );
-    // ((TimedBeaconSimulator) BeaconManager.getBeaconSimulator()).createTimedSimulatedBeacons();
+  public Typeface getIconFont() {
+    return fontAwesome;
   }
 
   public static Context getContext(){
@@ -104,84 +113,84 @@ public class BeaconReferenceApplication extends Application implements Bootstrap
     catch (RemoteException e) {
 
     }
-
-
-    // In this example, this class sends a notification to the user whenever a Beacon
-    // matching a Region (defined above) are first seen.
-    //Log.d(TAG, "did enter region.");
-    //if (!haveDetectedBeaconsSinceBoot) {
-      //Log.d(TAG, "auto launching MainActivity");
-
-      // The very first time since boot that we detect an beacon, we launch the
-      // MainActivity
-      //Intent intent = new Intent(this, MonitoringActivity.class);
-      //intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-      // Important:  make sure to add android:launchMode="singleInstance" in the manifest
-      // to keep multiple copies of this activity from getting created if the user has
-      // already manually launched the app.
-      //this.startActivity(intent);
-      //haveDetectedBeaconsSinceBoot = true;
-    //} else {
-      //if (monitoringActivity != null) {
-        // If the Monitoring Activity is visible, we log info about the beacons we have
-        // seen on its display
-        //monitoringActivity.logToDisplay("I see a beacon again" );
-      //} else {
-        // If we have already seen beacons before, but the monitoring activity is not in
-        // the foreground, we send a notification to the user on subsequent detections.
-        //Log.d(TAG, "Sending notification.");
-        //sendNotification();
-      //}
-    //}
-
-
   }
 
   @Override
   public void didRangeBeaconsInRegion(Collection<Beacon> beacons, Region region) {
     Log.d(TAG, "Amount of Beacons in region on this scan: " + beacons.size());
-    if (beacons.size() > 0) {
-      currentBeacons.clear();
-      //Object[] tmp = beacons.toArray();
-      Iterator<Beacon> itr = beacons.iterator();
-      while(itr.hasNext()) {
-        Beacon beacon = itr.next();
-        currentBeacons.add((SalsaBeacon) new SalsaBeacon(beacon.getId2().toInt(), beacon.getId3().toInt()));
+    Long now = System.currentTimeMillis();
+    int defaultExpires = calculateDefaultExpiresLength();
+    Boolean added = false;
+    Boolean removed = false;
+    if(beacons.size() > 0) {
+      for (Beacon beacon : beacons) {
+        Long expires = now + calculateExpires(beacon);
+        try {
+          SalsaBeacon sb = new SalsaBeacon(beacon.getId2().toInt(), beacon.getId3().toInt());
+          boolean thisAdded = addToBuffer(sb, expires);
+          added = added || thisAdded;
+        } catch (Resources.NotFoundException e) {
+          Log.e(TAG, e.toString());
+          continue;
+        }
       }
-      //currentBeacons = Arrays. copyOf(tmp, tmp.length, Beacon[].class);
-      /*Beacon foundBeacon = beacons.iterator().next();
-      for (Beacon beacon : currentBeacons) {
-        if (beacon.getDistance() < 1)
-          currentBeacons.put(beacon, new Date());
-      }*/
-      //if(!currentBeacons.containsKey(foundBeacon)) {
-        //currentBeacons.put(foundBeacon, new Date());
-        //if(foundBeacon.getDistance() < 1) {
-          if(mLifecycleHandler.isApplicationVisible()) {
-            Log.d(TAG, "App visible and Beacons in range");
-            new UpdateListTask().execute(currentBeacons);
-          } else {
-            Log.d(TAG, "App NOT visible and Beacons in range");
-            sendNotification(currentBeacons.get(0));
-          }
-        //}
-      //}
+    }
+
+    Iterator bufferItr = mBeaconBuffer.entrySet().iterator();
+
+    while(bufferItr.hasNext()) {
+      Map.Entry entry = (Map.Entry) bufferItr.next();
+      Long expires = (Long) entry.getValue();
+      if(now > expires) {
+        bufferItr.remove();
+        removed = true;
+      }
+    }
+
+    PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
+    if(mLifecycleHandler.isApplicationVisible() && (added || removed)) {
+      Log.d(TAG, "added: " + added + " removed: " + removed);
+      new UpdateListTask().execute(mBeaconBuffer.keySet());
+    } else if(!pm.isScreenOn() && added) {
+      Log.d(TAG, "App NOT visible and Beacons in range");
+      sendNotification();
+      Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+      // Vibrate for 500 milliseconds
+      v.vibrate(500);
     }
     Log.d(TAG, "Ranging for region: " + region);
+  }
 
+  private Long calculateExpires(Beacon beacon) {
+    Long expireTime = new Long(0);
+    double distance = beacon.getDistance();
+    if(distance > 10) {
+      expireTime = expireTime - 1000;
+    }
+    else if (distance > 1) {
+      expireTime = expireTime + 3000;
+    } else {
+      expireTime = expireTime + 10000;
+    }
+    return expireTime;
+  }
 
-
-
-      //EditText editText = (EditText)RangingActivity.this
-          //.findViewById(R.id.rangingText);
-
-      //Beacon firstBeacon = beacons.iterator().next();
-      //if(firstBeacon.getDistance() < 1) {
-      //  sendNotification(firstBeacon);
-      //}
-
-      //logToDisplay("The first beacon "+firstBeacon.toString()+" is about "+firstBeacon.getDistance()+" meters away.");
-    //}
+  private boolean addToBuffer(SalsaBeacon sb, Long expiresStamp) {
+    boolean newBeacon = false;
+    PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
+    if(!pm.isScreenOn()) {
+      if(!mBeaconScreenOffBuffer.contains(sb)) {
+        mBeaconScreenOffBuffer.add(sb);
+        newBeacon = true;
+      }
+    } else {
+      mBeaconScreenOffBuffer.clear();
+    }
+    if(!mBeaconBuffer.containsKey(sb)) {
+      newBeacon = true;
+    }
+    mBeaconBuffer.put(sb, expiresStamp);
+    return newBeacon;
   }
 
   @Override
@@ -200,18 +209,24 @@ public class BeaconReferenceApplication extends Application implements Bootstrap
     }*/
   }
 
-  private void sendNotification(SalsaBeacon beacon) {
+  private int calculateDefaultExpiresLength() {
+    PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
+    if(!pm.isScreenOn()) {
+      return 300000;
+    }
+    return 10000;
+  }
+
+  private void sendNotification() {
     Notification.Builder builder =
         new Notification.Builder(this)
-            .setContentTitle("Beacon Reference Application")
-            .setContentText("An beacon is nearby.")
-            .setSmallIcon(R.drawable.ic_launcher)
+            .setContentTitle(getResources().getString(R.string.app_name))
+            .setContentText(getResources().getString(R.string.notification))
+            .setSmallIcon(R.drawable.ic_white_salsa)
             .setAutoCancel(true);
 
     TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
-    Intent intent = new Intent(this, BeaconInfoActivity.class);
-    intent.putExtra(SALSA_BEACON_ID, beacon.getId());
-    stackBuilder.addParentStack(BeaconInfoActivity.class);
+    Intent intent = new Intent(this, MonitoringActivity.class);
     stackBuilder.addNextIntent(intent);
     PendingIntent resultPendingIntent =
         stackBuilder.getPendingIntent(
@@ -236,8 +251,8 @@ public class BeaconReferenceApplication extends Application implements Bootstrap
     this.monitoringActivity = activity;
   }
 
-  private class UpdateListTask extends AsyncTask<List<SalsaBeacon>, Void,List<SalsaBeacon>> {
-    protected List<SalsaBeacon> doInBackground(List<SalsaBeacon>... beacons) {
+  private class UpdateListTask extends AsyncTask<Set<SalsaBeacon>, Void, Set<SalsaBeacon>> {
+    protected Set<SalsaBeacon> doInBackground(Set<SalsaBeacon>... beacons) {
       return beacons[0];
     }
 
@@ -245,10 +260,14 @@ public class BeaconReferenceApplication extends Application implements Bootstrap
       setProgressPercent(progress[0]);
     }*/
 
-    protected void onPostExecute(List<SalsaBeacon> beacons) {
+    protected void onPostExecute(Set<SalsaBeacon> beacons) {
       beaconAdapter.clear();
       Log.d(TAG, "UPDATING BEACON LIST. Number of Beacons: " + beacons.size());
-      beaconAdapter.addAll(beacons);
+      Iterator itr = beacons.iterator();
+      while(itr.hasNext()) {
+        SalsaBeacon beacon = (SalsaBeacon) itr.next();
+        beaconAdapter.add(beacon);
+      }
       beaconAdapter.notifyDataSetChanged();
     }
   }

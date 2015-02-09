@@ -1,8 +1,20 @@
 <resources>
 
+    <color name="salsa_orange">#E55D0E</color>
+    <color name="salsa_bg_orange">#FDE8DB</color>
+    <color name="salsa_black">#000</color>
+
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="@android:style/Theme.Holo">
+    <style name="AppTheme" parent="@android:style/Theme.Holo.Light">
         <!-- Customize your theme here. -->
+        <item name="android:textColor">@color/salsa_black</item>
+        <item name="android:windowBackground">@color/salsa_bg_orange</item>
+        <item name="android:actionBarStyle">@style/ActionBar</item>
+    </style>
+
+    <style name="ActionBar" parent="@android:style/Widget.Holo.Light.ActionBar.Solid">
+        <item name="android:background">@drawable/ab_solid_example</item>
+        <item name="android:logo">@drawable/salsa_logo_with_padding</item>
     </style>
 
 </resources>
