@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    This template contains details for creating a beacon instance configuration file.
+    Each file should be named with the prefix 'beacon' followed by the beacon major id and then
+    the beacon minor id separated using underscores e.g. beacon_1_1.
+ -->
+<beacon xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- uri should contain either a file:/// pointer or a http:// or https:// pointer -->
+    <uri>file:///android_asset/beacons/beacon_1_3/alternate_content.html</uri>
+    <!--
+        occurrence_validity_distance is the distance in meters which is deemed as being contact
+        with with the device
+    -->
+    <occurrence_validity_distance>10</occurrence_validity_distance>
+    <!--
+        occurrence_validity_period is the time in seconds between the beacon being within
+        its occurrence_validity_distance which then constitutes a new occurrence
+    -->
+    <occurrence_validity_period>86400</occurrence_validity_period>
+</beacon>

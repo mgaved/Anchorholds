@@ -3,6 +3,7 @@ package uk.ac.open.salsabeacons;
 import android.app.Activity;
 import android.app.Application;
 import android.os.Bundle;
+import android.util.Log;
 
 /**
  * Created by rmg29 on 16/01/2015.
@@ -10,6 +11,7 @@ import android.os.Bundle;
 public class LifecycleHandler implements Application.ActivityLifecycleCallbacks {
   // I use four separate variables here. You can, of course, just use two and
   // increment/decrement them instead of using four and incrementing them all.
+  private final String TAG = "LifecycleHandler";
   private int resumed;
   private int paused;
   private int started;
@@ -23,10 +25,20 @@ public class LifecycleHandler implements Application.ActivityLifecycleCallbacks 
 
   public void onActivityResumed(Activity activity) {
     ++resumed;
+    Log.d(TAG, "onActivityResumed");
+    BeaconReferenceApplication application =
+        (BeaconReferenceApplication) BeaconReferenceApplication.getContext();
+    application.clearBuffer();
+    application.cancelNotification();
   }
 
   public void onActivityPaused(Activity activity) {
     ++paused;
+    Log.d(TAG, "onActivityPaused");
+    BeaconReferenceApplication application =
+        (BeaconReferenceApplication) BeaconReferenceApplication.getContext();
+    application.populateScreenOffBuffer();
+    SalsaBeacon.updateOccurrencesToDb();
   }
 
   public void onActivitySaveInstanceState(Activity activity, Bundle outState) {

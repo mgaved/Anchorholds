@@ -43,7 +43,7 @@ public class BeaconReferenceApplication extends Application implements Bootstrap
   private static final String TAG = "BeaconReferenceApplication";
   private static final String SALSABEACONSID = "46A88354-06AC-4743-A762-901C0717596E";
   private static Context mContext;
-  public final static String SALSA_BEACON_ID = "uk.ac.open.salsabeacons.SALSA_BEACON_ID";
+  //public final static String SALSA_BEACON_ID = "uk.ac.open.salsabeacons.SALSA_BEACON_ID";
   private Typeface fontAwesome;
   private RegionBootstrap regionBootstrap;
   private BackgroundPowerSaver backgroundPowerSaver;
@@ -125,13 +125,10 @@ public class BeaconReferenceApplication extends Application implements Bootstrap
     if(beacons.size() > 0) {
       for (Beacon beacon : beacons) {
         Long expires = now + calculateExpires(beacon);
-        try {
-          SalsaBeacon sb = new SalsaBeacon(beacon.getId2().toInt(), beacon.getId3().toInt());
+        SalsaBeacon sb = SalsaBeacon.getInstance(beacon.getId2().toInt(), beacon.getId3().toInt(), beacon.getDistance());
+        if(sb != null) {
           boolean thisAdded = addToBuffer(sb, expires);
           added = added || thisAdded;
-        } catch (Resources.NotFoundException e) {
-          Log.e(TAG, e.toString());
-          continue;
         }
       }
     }
@@ -155,8 +152,7 @@ public class BeaconReferenceApplication extends Application implements Bootstrap
       Log.d(TAG, "App NOT visible and Beacons in range");
       sendNotification();
       Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-      // Vibrate for 500 milliseconds
-      v.vibrate(500);
+      v.vibrate(500); // Vibrate for 500 milliseconds
     }
     Log.d(TAG, "Ranging for region: " + region);
   }
@@ -179,18 +175,34 @@ public class BeaconReferenceApplication extends Application implements Bootstrap
     boolean newBeacon = false;
     PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
     if(!pm.isScreenOn()) {
+      Log.d(TAG, "screen not on");
       if(!mBeaconScreenOffBuffer.contains(sb)) {
         mBeaconScreenOffBuffer.add(sb);
         newBeacon = true;
       }
     } else {
-      mBeaconScreenOffBuffer.clear();
+      if(!mBeaconBuffer.containsKey(sb)) {
+        Log.d(TAG, "Buffer doesn't contain Key"+sb.toString());
+        newBeacon = true;
+      }
+      mBeaconBuffer.put(sb, expiresStamp);
     }
-    if(!mBeaconBuffer.containsKey(sb)) {
-      newBeacon = true;
-    }
-    mBeaconBuffer.put(sb, expiresStamp);
+
     return newBeacon;
+  }
+
+  public void clearBuffer() {
+    mBeaconScreenOffBuffer.clear();
+    mBeaconBuffer.clear();
+  }
+
+  public void populateScreenOffBuffer() {
+    Set<SalsaBeacon> values = mBeaconBuffer.keySet();
+    Iterator i = values.iterator();
+    while(i.hasNext()) {
+      mBeaconScreenOffBuffer.add((SalsaBeacon) i.next());
+    }
+    mBeaconBuffer.clear();
   }
 
   @Override
@@ -237,6 +249,11 @@ public class BeaconReferenceApplication extends Application implements Bootstrap
     NotificationManager notificationManager =
         (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
     notificationManager.notify(1, builder.build());
+  }
+
+  public void cancelNotification() {
+    NotificationManager notificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
+    notificationManager.cancel(1);
   }
 
   public ArrayAdapter getBeaconAdapter() {

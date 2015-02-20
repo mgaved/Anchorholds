@@ -1,6 +1,7 @@
 package uk.ac.open.salsabeacons;
 
 import android.app.ListActivity;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -21,6 +22,10 @@ public class MonitoringActivity extends ListActivity {
   protected void onCreate(Bundle savedInstanceState) {
     Log.d(TAG, "onCreate");
     super.onCreate(savedInstanceState);
+    Resources res = getResources();
+    String appName = res.getString(R.string.main_activity);
+    String version = res.getString(R.string.salsa_app_version);
+    setTitle(appName+" "+version);
     setContentView(R.layout.activity_monitoring);
     setListAdapter(((BeaconReferenceApplication) this.getApplicationContext()).getBeaconAdapter());
     verifyBluetooth();
@@ -41,12 +46,18 @@ public class MonitoringActivity extends ListActivity {
   @Override
   public void onListItemClick(ListView l, View v, int position, long id) {
     SalsaBeacon beacon = (SalsaBeacon) getListView().getItemAtPosition(position);
+    beacon.insertOccurrenceViewed();
+    if(beacon.isUnassigned()) {
+      return;
+    }
     if(!beacon.isResource()) {
       Intent viewIntent = new Intent("android.intent.action.VIEW", beacon.getUri());
       startActivity(viewIntent);
     } else {
       Intent intent = new Intent(this, BeaconInfoActivity.class);
-      intent.putExtra(BeaconReferenceApplication.SALSA_BEACON_ID, beacon.getId());
+      Resources resources = getResources();
+      intent.putExtra("SalsaBeaconTitle", resources.getString(resources.getIdentifier(beacon.getId(), "string", "uk.ac.open.salsabeacons")));
+      intent.setData(beacon.getUri());
       startActivity(intent);
     }
   }

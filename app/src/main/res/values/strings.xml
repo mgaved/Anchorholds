@@ -1,14 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <string name="salsa_app_version">0.3</string>
+
     <string name="app_name">Salsa beacons</string>
     <string name="main_activity">beacons</string>
     <string name="beaconInfo">Beacon info</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_beacon_info">Beacon Information</string>
     <string name="scanning">Searching for beacons...</string>
-    <string name="notification">A beacon as been detected</string>
+    <string name="notification">A beacon has been detected</string>
 
+    <string name="estimated_proximity">distance in meters (approx)</string>
     <string name="region_1">Creative suite</string>
 
     <string name="beacon_1_4">Salsa blog</string>

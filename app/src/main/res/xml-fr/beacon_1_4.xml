@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <beacon>
     <uri><![CDATA[https://translate.google.co.uk/translate?sl=en&tl=fr&js=y&prev=_t&hl=en&ie=UTF-8&u=http%3A%2F%2Fwww.open.ac.uk%2Fblogs%2Fsalsa&edit-text=&act=url]]></uri>
+    <occurrence_validity_distance>10</occurrence_validity_distance>
+    <occurrence_validity_period>43200</occurrence_validity_period>
 </beacon>
