@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <beacon>
-    <uri>file:///android_asset/beacons/beacon_1_3/alternate_content.html</uri>
+    <title>No.7 Bus</title>
+    <uri>file:///android_asset/beacons/beacon_1_3/content.html</uri>
     <occurrence_validity_distance>10</occurrence_validity_distance>
     <occurrence_validity_period>43200</occurrence_validity_period>
 </beacon>

@@ -4,7 +4,9 @@
     Each file should be named with the prefix 'beacon' followed by the beacon major id and then
     the beacon minor id separated using underscores e.g. beacon_1_1.
  -->
-<beacon xmlns:android="http://schemas.android.com/apk/res/android">
+<beacon>
+    <!-- The title of the beacon -->
+    <title>A short piece of learning</title>
     <!-- uri should contain either a file:/// pointer or a http:// or https:// pointer -->
     <uri>file:///android_asset/beacons/beacon_1_3/alternate_content.html</uri>
     <!--

@@ -154,7 +154,7 @@ public class BeaconReferenceApplication extends Application implements Bootstrap
       Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
       v.vibrate(500); // Vibrate for 500 milliseconds
     }
-    Log.d(TAG, "Ranging for region: " + region);
+    //Log.d(TAG, "Ranging for region: " + region);
   }
 
   private Long calculateExpires(Beacon beacon) {

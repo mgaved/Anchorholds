@@ -10,7 +10,10 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 
+import org.altbeacon.beacon.Beacon;
 import org.altbeacon.beacon.BeaconManager;
+
+import java.util.HashSet;
 
 /**
  * Created by rmg29 on 22/01/2015.
@@ -34,7 +37,10 @@ public class MonitoringActivity extends ListActivity {
   @Override
   public void onResume() {
     super.onResume();
-    ((BeaconReferenceApplication) this.getApplicationContext()).setMonitoringActivity(this);
+    BeaconReferenceApplication app = (BeaconReferenceApplication) this.getApplicationContext();
+    app.setMonitoringActivity(this);
+    app.didRangeBeaconsInRegion(new HashSet<Beacon>(), null);
+
   }
 
   @Override
@@ -56,7 +62,7 @@ public class MonitoringActivity extends ListActivity {
     } else {
       Intent intent = new Intent(this, BeaconInfoActivity.class);
       Resources resources = getResources();
-      intent.putExtra("SalsaBeaconTitle", resources.getString(resources.getIdentifier(beacon.getId(), "string", "uk.ac.open.salsabeacons")));
+      intent.putExtra("SalsaBeaconTitle", beacon.getTitle());
       intent.setData(beacon.getUri());
       startActivity(intent);
     }

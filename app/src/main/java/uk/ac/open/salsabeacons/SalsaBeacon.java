@@ -57,6 +57,7 @@ public class SalsaBeacon implements Parcelable {
   private boolean mUserViewed = false;
   private long mUserViewedTimestamp;
   private double mLastProximity;
+  private String mTitle;
 
 
   static SalsaBeacon getInstance(int areaId, int individualId, double proximity) {
@@ -109,6 +110,7 @@ public class SalsaBeacon implements Parcelable {
       parseContent(parser);
     } catch(Resources.NotFoundException e) {
       Log.i(TAG, e.getMessage());
+      mTitle = mBeaconId;
       mValidityDistance = SalsaBeacon.DEFAULT_VALID_DISTANCE;
       mValidityPeriod = SalsaBeacon.DEFAULT_VALID_PERIOD;
     }
@@ -129,6 +131,10 @@ public class SalsaBeacon implements Parcelable {
 
   public Date getViewedAt() {
     return new Date(mUserViewedTimestamp);
+  }
+
+  public String getTitle() {
+    return mTitle;
   }
 
   private int getOccurrenceDbId() {
@@ -295,6 +301,9 @@ public class SalsaBeacon implements Parcelable {
           case XmlResourceParser.TEXT:
             Log.d(TAG+" TEXT", parser.getText());
             switch (contentType) {
+              case "title":
+                mTitle = parser.getText();
+                continue;
               case "uri":
                 mUri = Uri.parse(parser.getText());
                 continue;
@@ -354,10 +363,11 @@ public class SalsaBeacon implements Parcelable {
     Application application = (Application) BeaconReferenceApplication.getContext();
     String name;
     if(mUri == null) {
-      name = getId();
+      name = mTitle;
     } else {
       name = application.getResources().getString(application.getResources().getIdentifier(mRegionId, "string", "uk.ac.open.salsabeacons"));
-      name += " " + application.getResources().getString(application.getResources().getIdentifier(mBeaconId, "string", "uk.ac.open.salsabeacons"));
+      //name += " " + application.getResources().getString(application.getResources().getIdentifier(mBeaconId, "string", "uk.ac.open.salsabeacons"));
+      name += " " + mTitle;
     }
     return name;
   }
@@ -385,6 +395,7 @@ public class SalsaBeacon implements Parcelable {
     out.writeInt(mUserViewed ? 1 : 0);
     out.writeLong(mUserViewedTimestamp);
     out.writeDouble(mLastProximity);
+    out.writeString(mTitle);
   }
 
   public static final Parcelable.Creator<SalsaBeacon> CREATOR
@@ -410,6 +421,6 @@ public class SalsaBeacon implements Parcelable {
     mUserViewed = in.readInt() == 0;
     mUserViewedTimestamp = in.readLong();
     mLastProximity = in.readDouble();
+    mTitle = in.readString();
   }
-
 }

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<beacon>
+    <title>Comedy Store : idiome de la semaine</title>
+    <uri>file:///android_asset/beacons-fr/beacon_1_2/content.html</uri>
+    <occurrence_validity_distance>10</occurrence_validity_distance>
+    <occurrence_validity_period>43200</occurrence_validity_period>
+</beacon>

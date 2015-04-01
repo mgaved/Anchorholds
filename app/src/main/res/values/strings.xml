@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="salsa_app_version">0.3</string>
+    <string name="salsa_app_version">0.5</string>
 
     <string name="app_name">Salsa beacons</string>
     <string name="main_activity">beacons</string>
@@ -12,11 +12,8 @@
     <string name="notification">A beacon has been detected</string>
 
     <string name="estimated_proximity">distance in meters (approx)</string>
-    <string name="region_1">Creative suite</string>
 
-    <string name="beacon_1_4">Salsa blog</string>
-    <string name="beacon_1_3">On the bus</string>
-
+    <string name="region_1">Milton Keynes</string>
     <string name="region_2">JLB ground floor Nexus</string>
 
     <string name="fa_glass">&#xf000;</string>

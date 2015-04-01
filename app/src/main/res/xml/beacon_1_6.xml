@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<beacon>
+    <title>Test content 1_6</title>
+    <uri><![CDATA[http://www.open.ac.uk/blogs/salsa/?page_id=47]]></uri>
+    <occurrence_validity_distance>10</occurrence_validity_distance>
+    <occurrence_validity_period>43200</occurrence_validity_period>
+</beacon>

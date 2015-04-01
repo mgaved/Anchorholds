@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="salsa_app_version">0.3</string>
+    <string name="salsa_app_version">0.5</string>
 
     <string name="app_name">Salsa balises</string>
     <string name="main_activity">balises</string>
@@ -12,11 +12,8 @@
     <string name="notification">Une balise a été détectée</string>
 
     <string name="estimated_proximity">distance en mètres (environ)</string>
-    <string name="region_1">Creative Suite</string>
 
-    <string name="beacon_1_4">Blog Salsa</string>
-    <string name="beacon_1_3">Sur le bus</string>
-
+    <string name="region_1">Milton Keynes</string>
     <string name="region_2">JLB rez de chaussée Nexus</string>
 
     <string name="fa_glass">&#xf000;</string>
