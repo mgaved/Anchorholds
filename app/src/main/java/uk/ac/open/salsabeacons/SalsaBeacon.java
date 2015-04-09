@@ -67,6 +67,7 @@ public class SalsaBeacon implements Parcelable {
       SalsaBeacon b = loadedBeacons.get(beaconId);
       Log.d(TAG+" b", Double.toString(proximity)+" <= "+Double.toString(b.mValidityDistance));
       if(proximity <= b.mValidityDistance) {
+        b.mLastProximity = proximity;
         b.updateOccurrence(now);
         Log.d(TAG+" cached", b.toString());
         return b;
@@ -208,23 +209,8 @@ public class SalsaBeacon implements Parcelable {
       Log.d(TAG+" update", test.toString()+" < "+Long.toString(timeStamp));
       return insertOccurrence(timeStamp);
     } else {
-      //Application application = (Application) BeaconReferenceApplication.getContext();
-      //ContentResolver cr = application.getContentResolver();
-      //ContentValues values = new ContentValues();
-      //values.put(Salsa.BeaconOccurrence.COLUMN_NAME_LAST_LOGGED, timeStamp);
-      //try {
-        //Log.d(TAG+" update", mDbUri.toString());
-        //int updated = cr.update(mDbUri, values, null, null);
-        //if(updated == 0) {
-          //Log.e(TAG, "no matching beacon_occurrence to update for beacon: " + getId());
-          //return false;
-        //} else {
-          mLastLogged = timeStamp;
-          return true;
-        //}
-      //} catch(SQLException e) {
-        //return false;
-      //}
+      mLastLogged = timeStamp;
+      return true;
     }
   }
 
