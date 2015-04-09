@@ -11,8 +11,10 @@
     <string name="scanning">Recherche de balises ...</string>
     <string name="notification">Une balise a été détectée</string>
 
+    <string name="region">Région</string>
     <string name="estimated_proximity">distance en mètres (environ)</string>
 
+    <string name="region_0">Walton Hall</string>
     <string name="region_1">Milton Keynes</string>
     <string name="region_2">JLB rez de chaussée Nexus</string>
 

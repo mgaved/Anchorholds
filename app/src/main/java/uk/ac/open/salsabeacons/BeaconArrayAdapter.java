@@ -5,6 +5,7 @@ import android.app.Application;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Color;
+import android.text.Html;
 import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,7 +38,7 @@ public class BeaconArrayAdapter<Object> extends ArrayAdapter {
     TextView timestamp = (TextView) rowView.findViewById(R.id.beacon_timestamp);
     TextView proximityText = (TextView) rowView.findViewById(R.id.beacon_proximity);
     SalsaBeacon beacon = (SalsaBeacon) getItem(position);
-    title.setText(beacon.toString());
+    title.setText(Html.fromHtml(beacon.toString()), TextView.BufferType.SPANNABLE);
     Integer iconResourceId = R.string.fa_globe;
     if(beacon.isUnassigned()) {
       iconResourceId = R.string.fa_question;
@@ -65,7 +66,7 @@ public class BeaconArrayAdapter<Object> extends ArrayAdapter {
         + time.format(beacon.getLastLogged())
         + viewedDetails
     );
-    proximityText.setText(resources.getString(R.string.estimated_proximity)
+    proximityText.setText(resources.getString(R.string.region) + ": " +beacon.getRegion() + " | " +resources.getString(R.string.estimated_proximity)
         + ": " + proximity);
     return rowView;
 

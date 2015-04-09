@@ -28,7 +28,7 @@ public class SalsaBeacon implements Parcelable {
   private static final String TAG = "SalsaBeaconBeacon";
 
   private static final String REGION_ID_PREFIX = "region_";
-  private static final String BEACON_ID_PREFIX = "beacon_";
+  private static final String BEACON_ID_PREFIX = "salsa_";
 
   public static final String[] sOccurenceProjection = {
       Salsa.BeaconOccurrence._ID,
@@ -136,6 +136,17 @@ public class SalsaBeacon implements Parcelable {
 
   public String getTitle() {
     return mTitle;
+  }
+
+  public String getRegion() {
+    Application application = (Application) BeaconReferenceApplication.getContext();
+    String name;
+    try {
+      name = application.getResources().getString(application.getResources().getIdentifier(mRegionId, "string", "uk.ac.open.salsabeacons"));
+    } catch (Exception e) {
+      name = mRegionId;
+    }
+    return name;
   }
 
   private int getOccurrenceDbId() {
@@ -346,16 +357,17 @@ public class SalsaBeacon implements Parcelable {
 
   @Override
   public String toString() {
-    Application application = (Application) BeaconReferenceApplication.getContext();
-    String name;
-    if(mUri == null) {
-      name = mTitle;
-    } else {
-      name = application.getResources().getString(application.getResources().getIdentifier(mRegionId, "string", "uk.ac.open.salsabeacons"));
-      //name += " " + application.getResources().getString(application.getResources().getIdentifier(mBeaconId, "string", "uk.ac.open.salsabeacons"));
-      name += " " + mTitle;
-    }
-    return name;
+    //Application application = (Application) BeaconReferenceApplication.getContext();
+    //String name;
+    //if(mUri == null) {
+    //  name = mTitle;
+    //} else {
+    //  name = application.getResources().getString(application.getResources().getIdentifier(mRegionId, "string", "uk.ac.open.salsabeacons"));
+    //  //name += " " + application.getResources().getString(application.getResources().getIdentifier(mBeaconId, "string", "uk.ac.open.salsabeacons"));
+    //  name += " " + mTitle;
+    //}
+    //return name;
+    return mTitle;
   }
 
   /*

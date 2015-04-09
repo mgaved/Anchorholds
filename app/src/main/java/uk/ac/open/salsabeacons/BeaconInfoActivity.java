@@ -40,7 +40,7 @@ public class BeaconInfoActivity extends Activity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     Intent intent = getIntent();
-    setTitle(intent.getStringExtra("SalsaBeaconTitle"));
+    setTitle(Html.fromHtml(intent.getStringExtra("SalsaBeaconTitle")));
     setContentView(R.layout.activity_beacon_info);
     mUrl = intent.getData().toString();
     mWebView = (WebView) findViewById(R.id.webview);
