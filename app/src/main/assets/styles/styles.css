@@ -1,11 +1,16 @@
 body {
-  font-family: Georgia,"Bitstream Charter",serif;
+  font-family: Tahoma, sans-serif;
+  color: #1f536b;
+  background-color: #dbdfdb;
 }
 
 .idiom, .explanation {
   font-weight: bold;
 }
 
+h1 {
+  color: #00b0ac;
+}
 
 blockquote {
     margin: 0;
@@ -14,4 +19,17 @@ blockquote {
 ul.stripes {
   background: url("../images/3-stripe.png") repeat-x scroll center bottom rgba(0, 0, 0, 0);
   padding-bottom: 40px;
+}
+
+figure {
+  margin: 10px 0;
+}
+
+a {
+  color: #4e247b;
+  text-decoration: none;
+}
+
+a:hover, a:active, a:focus {
+  color: #e80074;
 }

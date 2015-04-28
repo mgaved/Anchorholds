@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:context=".MonitoringActivity" >
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/searching"
+        android:id="@+id/linearLayout"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageView"
+            android:src="@drawable/ic_satellite"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="5dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="@string/non_scanning"
+            android:id="@+id/textView"
+            android:textColor="@android:color/white"
+            android:maxWidth="160dp"
+            android:layout_marginLeft="10dp"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                  android:orientation="horizontal"
+                  android:layout_width="match_parent"
+                  android:layout_height="match_parent"
+                  android:layout_below="@+id/linearLayout"
+                  android:id="@+id/frags">
+
+        <fragment android:name="uk.ac.open.salsabeacons.BeaconListFragment"
+                  android:id="@+id/beaconlisting"
+                  android:layout_width="300dp"
+                  android:layout_height="wrap_content"
+                  tools:layout="@layout/beacon_list"/>
+
+        <fragment class="uk.ac.open.salsabeacons.ContentWebViewFragment"
+                  android:id="@+id/content_fragment"
+                  android:layout_width="match_parent"
+                  android:layout_height="match_parent" />
+    </LinearLayout>
+
+</RelativeLayout>

@@ -28,7 +28,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="@string/scanning"
+            android:text="@string/non_scanning"
             android:id="@+id/textView"
             android:textColor="@android:color/white"
             android:maxWidth="160dp"
@@ -36,15 +36,12 @@
             />
 
     </LinearLayout>
-
-    <ListView
-        android:id="@android:id/list"
+    
+    <fragment android:name="uk.ac.open.salsabeacons.BeaconListFragment"
+        android:id="@+id/beaconlisting"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:footerDividersEnabled="true"
-        android:headerDividersEnabled="true"
-        android:layout_below="@+id/linearLayout"/>
+        android:layout_below="@+id/linearLayout"
+        tools:layout="@layout/beacon_list"/>
 
 </RelativeLayout>

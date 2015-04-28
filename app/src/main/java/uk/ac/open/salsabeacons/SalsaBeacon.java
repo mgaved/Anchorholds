@@ -1,3 +1,24 @@
+/*
+ * This file is part of Salsa Beacons
+ *
+ * Salsa Beacons is a Bluetooth LE aware Android app that enables location dependant learning
+ * author:  Richard Greenwood <richard.greenwood@open.ac.uk>
+ * Copyright (C) 2015 The Open University
+ *
+ * Salsa Beacons is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * any later version.
+ *
+ * Salsa Beacons is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+
+ * You should have received a copy of the GNU General Public License
+ * along with Salsa Beacons.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package uk.ac.open.salsabeacons;
 
 import android.app.Application;
@@ -6,26 +27,22 @@ import android.content.ContentValues;
 import android.content.res.Resources;
 import android.content.res.XmlResourceParser;
 import android.database.Cursor;
-import android.database.SQLException;
 import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.support.v4.util.SimpleArrayMap;
 import android.util.Log;
 
 import org.xmlpull.v1.XmlPullParserException;
 
-import java.sql.SQLDataException;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 
 /**
  * Created by rmg29 on 22/01/2015.
  */
 public class SalsaBeacon implements Parcelable {
-  private static final String TAG = "SalsaBeaconBeacon";
+  private static final String TAG = "SalsaBeaconClass";
 
   private static final String REGION_ID_PREFIX = "region_";
   private static final String BEACON_ID_PREFIX = "salsa_";
@@ -33,19 +50,18 @@ public class SalsaBeacon implements Parcelable {
   public static final String[] sOccurenceProjection = {
       Salsa.BeaconOccurrence._ID,
       Salsa.BeaconOccurrence.COLUMN_NAME_FIRST_LOGGED,
-      Salsa.BeaconOccurrence.COLUMN_NAME_LAST_LOGGED
-  };
-  public static final String[] sOccurenceViewedProjection = {
-      Salsa.BeaconViewed._ID,
-      Salsa.BeaconViewed.COLUMN_NAME_BEACON_OCCURRENCE_ID,
-      Salsa.BeaconViewed.COLUMN_NAME_TIMESTAMP
+      Salsa.BeaconOccurrence.COLUMN_NAME_LAST_LOGGED,
+      Salsa.BeaconOccurrence.COLUMN_NAME_VIEWED,
+      Salsa.BeaconOccurrence.COLUMN_NAME_DELETED,
+      Salsa.BeaconOccurrence.COLUMN_NAME_LAST_VALID_PROXIMITY
   };
 
   private static final int DEFAULT_VALID_DISTANCE = 10;
   private static final long DEFAULT_VALID_PERIOD = 43200000; // 12 hours in milliseconds
 
   private static HashMap<String, SalsaBeacon> loadedBeacons = new HashMap<String, SalsaBeacon>();
-
+  private int mAreaId;
+  private int mIndividualId;
   private String mRegionId;
   private String mBeaconId;
   private Uri mUri;
@@ -56,53 +72,61 @@ public class SalsaBeacon implements Parcelable {
   private long mLastLogged;
   private boolean mUserViewed = false;
   private long mUserViewedTimestamp;
+  private boolean mUserDeletedFromList = false;
   private double mLastProximity;
+  private double mLastValidProximity;
   private String mTitle;
 
+  static public SalsaBeacon getInstance(String beaconName) {
+    String[] components = beaconName.split("_");
+    if(components.length == 3) {
+      return getInstance(Integer.parseInt(components[1]), Integer.parseInt(components[2]));
+    }
+    return null;
+  }
 
-  static SalsaBeacon getInstance(int areaId, int individualId, double proximity) {
+  static public SalsaBeacon getInstance(int areaId, int individualId) {
+    String beaconId = SalsaBeacon.BEACON_ID_PREFIX +  areaId + "_" + individualId;
+    if(!loadedBeacons.containsKey(beaconId)) {
+      SalsaBeacon b = new SalsaBeacon(areaId, individualId);
+      b.loadLatestOccurrence();
+      loadedBeacons.put(b.getId(), b);
+    }
+    return loadedBeacons.get(beaconId);
+  }
+
+  static public void handleFoundBeacon(int areaId, int individualId, double proximity) {
     String beaconId = SalsaBeacon.BEACON_ID_PREFIX +  areaId + "_" + individualId;
     Long now = System.currentTimeMillis();
-    if(loadedBeacons.containsKey(beaconId)) {
-      SalsaBeacon b = loadedBeacons.get(beaconId);
-      Log.d(TAG+" b", Double.toString(proximity)+" <= "+Double.toString(b.mValidityDistance));
-      if(proximity <= b.mValidityDistance) {
-        b.mLastProximity = proximity;
-        b.updateOccurrence(now);
-        Log.d(TAG+" cached", b.toString());
-        return b;
-      } else {
-        Log.d(TAG+" null", "null");
-        return null;
-      }
-    } else {
-      SalsaBeacon b = new SalsaBeacon(areaId, individualId, proximity);
-      Log.d(TAG+" create", b.toString());
-      Log.d(TAG+" load latest", String.valueOf(b.loadLatestOccurrence()));
-      Log.d(TAG+" update latest", String.valueOf(b.updateOccurrence(now)));
+    if(!loadedBeacons.containsKey(beaconId)) {
+      SalsaBeacon b = new SalsaBeacon(areaId, individualId);
+      b.loadLatestOccurrence();
       loadedBeacons.put(b.getId(), b);
-      return b;
     }
+    SalsaBeacon b = loadedBeacons.get(beaconId);
+    b.mLastProximity = proximity;
+    //Log.d(TAG, "handleFoundBeacon: proximity: " + proximity);
+    b.logOccurrence(now, false);
   }
 
-  static public void updateOccurrencesToDb() {
+  static public void logOccurrencesToDb() {
     Collection values = loadedBeacons.values();
-    Iterator i = values.iterator();
-    Application application = (Application) BeaconReferenceApplication.getContext();
-    ContentResolver cr = application.getContentResolver();
-    ContentValues cv;
-    while(i.hasNext()) {
-      SalsaBeacon b = (SalsaBeacon) i.next();
-      cv = new ContentValues();
-      cv.put(Salsa.BeaconOccurrence.COLUMN_NAME_LAST_LOGGED, b.mLastLogged);
-      cr.update(b.mDbUri, cv, null, null);
+    for (Object value : values) {
+      ((SalsaBeacon) value).logOccurrence();
     }
   }
 
-  private SalsaBeacon(int areaId, int individualId, double proximity) throws Resources.NotFoundException {
-    mRegionId = SalsaBeacon.REGION_ID_PREFIX + areaId;
-    mBeaconId = SalsaBeacon.BEACON_ID_PREFIX +  areaId + "_" + individualId;
-    mLastProximity = proximity;
+  private SalsaBeacon(int areaId, int individualId) throws Resources.NotFoundException {
+    mAreaId = areaId;
+    mIndividualId = individualId;
+    mRegionId = SalsaBeacon.REGION_ID_PREFIX + mAreaId;
+    mBeaconId = SalsaBeacon.BEACON_ID_PREFIX +  mAreaId + "_" + mIndividualId;
+    mDbUri = null;
+    mFirstLogged = 0;
+    mLastLogged = 0;
+    mUserViewed = false;
+    mUserViewedTimestamp = 0;
+    mLastValidProximity = 0;
     Application application = (Application) BeaconReferenceApplication.getContext();
     try {
       XmlResourceParser parser = application.getResources().getXml(
@@ -115,11 +139,10 @@ public class SalsaBeacon implements Parcelable {
       mValidityDistance = SalsaBeacon.DEFAULT_VALID_DISTANCE;
       mValidityPeriod = SalsaBeacon.DEFAULT_VALID_PERIOD;
     }
-
   }
 
   public double getLastProximity() {
-    return mLastProximity;
+    return mLastValidProximity;
   }
 
   public Date getLastLogged() {
@@ -157,16 +180,16 @@ public class SalsaBeacon implements Parcelable {
     }
   }
 
-  private boolean loadLatestOccurrence() {
+  private void loadLatestOccurrence() {
     Application application = (Application) BeaconReferenceApplication.getContext();
     ContentResolver cr = application.getContentResolver();
     String selection = Salsa.BeaconOccurrence.COLUMN_NAME_BEACON_NAME + " = ?";
     String[] selectionArgs = {getId()};
     Cursor occurrences = cr.query(
-        Salsa.BeaconOccurrence.CONTENT_URI, SalsaBeacon.sOccurenceProjection, selection, selectionArgs, null
+        Salsa.BeaconOccurrence.CONTENT_URI, sOccurenceProjection, selection, selectionArgs, null
     );
     if(occurrences == null || !occurrences.moveToFirst()) {
-      return false;
+      return;
     }
     try {
       mDbUri = Salsa.BeaconOccurrence.CONTENT_ID_URI_BASE.buildUpon().appendPath(
@@ -178,97 +201,94 @@ public class SalsaBeacon implements Parcelable {
       mLastLogged = occurrences.getLong(
           occurrences.getColumnIndexOrThrow(Salsa.BeaconOccurrence.COLUMN_NAME_LAST_LOGGED)
       );
+      mUserViewedTimestamp = occurrences.getLong(
+          occurrences.getColumnIndexOrThrow(Salsa.BeaconOccurrence.COLUMN_NAME_VIEWED)
+      );
+      mUserDeletedFromList = occurrences.getInt(
+          occurrences.getColumnIndexOrThrow(Salsa.BeaconOccurrence.COLUMN_NAME_DELETED)
+      ) == 1;
+      mLastValidProximity = occurrences.getDouble(
+          occurrences.getColumnIndexOrThrow(Salsa.BeaconOccurrence.COLUMN_NAME_LAST_VALID_PROXIMITY)
+      );
+      if(mUserViewedTimestamp > 0) {
+        mUserViewed = true;
+      }
       occurrences.close();
-      loadOccurrenceViewed();
     } catch(IllegalArgumentException e) {
       mDbUri = null;
       mFirstLogged = 0;
       mLastLogged = 0;
-      return false;
-    }
-    return true;
-  }
-
-  private boolean insertOccurrence(Long timeStamp) {
-    Application application = (Application) BeaconReferenceApplication.getContext();
-    ContentResolver cr = application.getContentResolver();
-    ContentValues values = new ContentValues();
-    values.put(Salsa.BeaconOccurrence.COLUMN_NAME_BEACON_NAME, getId());
-    values.put(Salsa.BeaconOccurrence.COLUMN_NAME_FIRST_LOGGED, timeStamp);
-    values.put(Salsa.BeaconOccurrence.COLUMN_NAME_LAST_LOGGED, timeStamp);
-    try {
-      mDbUri = cr.insert(Salsa.BeaconOccurrence.CONTENT_URI, values);
-      Log.d(TAG+" dbURI", mDbUri.toString());
-      mFirstLogged = timeStamp;
-      mLastLogged = timeStamp;
-      return true;
-    } catch(SQLException e) {
-      mDbUri = null;
-      mFirstLogged = 0;
-      mLastLogged = 0;
-      return false;
+      mUserViewedTimestamp = 0;
+      mUserViewed = false;
+      mUserDeletedFromList = false;
     }
   }
 
-  private boolean updateOccurrence(Long timeStamp) {
-    Long test = mLastLogged + mValidityPeriod;
-    Boolean bool = test < timeStamp;
-    Log.d(TAG+" update test", Long.toString(test)+" < "+timeStamp+" = "+bool.toString());
-    if((mLastLogged + mValidityPeriod) < timeStamp) {
-      Log.d(TAG+" update mLastLogged", Long.toString(mLastLogged));
-      Log.d(TAG+" update mValidityPeriod", Long.toString(mValidityPeriod));
-      Log.d(TAG+" update", test.toString()+" < "+Long.toString(timeStamp));
-      return insertOccurrence(timeStamp);
-    } else {
-      mLastLogged = timeStamp;
-      return true;
-    }
+  private void logOccurrence() {
+    logOccurrence(mLastLogged, true);
   }
 
-  private void loadOccurrenceViewed() {
-    int occurenceId = getOccurrenceDbId();
-    if(occurenceId > 0) {
-      Application application = (Application) BeaconReferenceApplication.getContext();
-      ContentResolver cr = application.getContentResolver();
-      String selection = Salsa.BeaconViewed.COLUMN_NAME_BEACON_OCCURRENCE_ID + " = ?";
-      String[] selectionArgs = {Integer.toString(getOccurrenceDbId())};
-      Cursor viewed = cr.query(
-          Salsa.BeaconViewed.CONTENT_URI, SalsaBeacon.sOccurenceViewedProjection, selection, selectionArgs, null
-      );
-      if(viewed == null || !viewed.moveToFirst()) {
-        return;
-      }
-      try {
-        mUserViewed = true;
-        mUserViewedTimestamp = viewed.getLong(
-            viewed.getColumnIndexOrThrow(Salsa.BeaconViewed.COLUMN_NAME_TIMESTAMP)
-        );
-        viewed.close();
-      } catch(IllegalArgumentException e) {
-        mUserViewedTimestamp = 0;
-      }
-    }
-  }
+  private void logOccurrence(Long timeStamp, boolean writeToDb) {
+    //Log.d(TAG, "logOccurrence: " + mLastProximity + " " + timeStamp + " " + writeToDb);
+    if(mLastProximity > 0 && mLastProximity <= mValidityDistance) { // only action beacon surfacing to user if within valid distance
+      mLastValidProximity = mLastProximity;
 
-  public boolean insertOccurrenceViewed() {
-    if(!mUserViewed) {
-      Long now = System.currentTimeMillis();
       Application application = (Application) BeaconReferenceApplication.getContext();
       ContentResolver cr = application.getContentResolver();
       ContentValues values = new ContentValues();
-      values.put(Salsa.BeaconViewed.COLUMN_NAME_BEACON_OCCURRENCE_ID, getOccurrenceDbId());
-      values.put(Salsa.BeaconViewed.COLUMN_NAME_TIMESTAMP, now);
-      try {
-        Uri viewedId = cr.insert(Salsa.BeaconViewed.CONTENT_URI, values);
-        Log.d(TAG+" dbURI", viewedId.toString());
-        mUserViewedTimestamp = now;
-        mUserViewed = true;
-        return true;
-      } catch(SQLException e) {
-        return false;
+
+      if ((mLastLogged + mValidityPeriod) < timeStamp) { // always write to DB if a new occurence if needed
+        // a new occurence will be placed if either one doesn't exist or (mLastLogged = 0) or
+        // the current occurence is out of date!
+        SalsaBeacon newOccurrence = new SalsaBeacon(mAreaId, mIndividualId);
+        newOccurrence.mLastLogged = timeStamp;
+        newOccurrence.mLastProximity = mLastProximity;
+        newOccurrence.mLastValidProximity = newOccurrence.mLastProximity;
+
+        values.put(Salsa.BeaconOccurrence.COLUMN_NAME_BEACON_NAME, newOccurrence.getId());
+        values.put(Salsa.BeaconOccurrence.COLUMN_NAME_FIRST_LOGGED, newOccurrence.mLastLogged);
+        values.put(Salsa.BeaconOccurrence.COLUMN_NAME_LAST_LOGGED, newOccurrence.mLastLogged);
+        values.put(Salsa.BeaconOccurrence.COLUMN_NAME_VIEWED, newOccurrence.mUserViewedTimestamp);
+        values.put(Salsa.BeaconOccurrence.COLUMN_NAME_DELETED, newOccurrence.mUserDeletedFromList);
+        values.put(Salsa.BeaconOccurrence.COLUMN_NAME_LAST_VALID_PROXIMITY, newOccurrence.mLastValidProximity);
+        mDbUri = cr.insert(Salsa.BeaconOccurrence.CONTENT_URI, values);
+        cr.notifyChange(Salsa.BeaconOccurrence.CONTENT_VIEWABLE_LIST_URI, null);
+
+        ((BeaconReferenceApplication) application).sendNotification();
+        SalsaBeacon.loadedBeacons.remove(getId());
+      } else if (writeToDb) { // must be a current valid occurence ((mLastLogged + mValidityPeriod) >= timeStamp) and explicit call to write to DB
+        mLastLogged = timeStamp;
+
+        values.put(Salsa.BeaconOccurrence.COLUMN_NAME_LAST_LOGGED, mLastLogged);
+        values.put(Salsa.BeaconOccurrence.COLUMN_NAME_VIEWED, mUserViewedTimestamp);
+        values.put(Salsa.BeaconOccurrence.COLUMN_NAME_DELETED, mUserDeletedFromList);
+        values.put(Salsa.BeaconOccurrence.COLUMN_NAME_LAST_VALID_PROXIMITY, mLastValidProximity);
+        cr.update(mDbUri, values, null, null);
+        cr.notifyChange(Salsa.BeaconOccurrence.CONTENT_VIEWABLE_LIST_URI, null);
+
+      } else { // must be a current valid occurence ((mLastLogged + mValidityPeriod) >= timeStamp) so update in memory instance
+        mLastLogged = timeStamp;
       }
     }
-    return false;
+  }
+
+  public void logOccurrenceViewed() {
+    if(!mUserViewed) {
+      mUserViewedTimestamp = System.currentTimeMillis();
+      mUserViewed = true;
+      logOccurrence();
+      //Application application = (Application) BeaconReferenceApplication.getContext();
+      //ContentResolver cr = application.getContentResolver();
+      //cr.notifyChange(Salsa.BeaconOccurrence.CONTENT_VIEWABLE_LIST_URI, null);
+    }
+  }
+
+  public void setDeletedFlag() {
+    mUserDeletedFromList = true;
+    logOccurrence();
+    //Application application = (Application) BeaconReferenceApplication.getContext();
+    //ContentResolver cr = application.getContentResolver();
+    //cr.notifyChange(Salsa.BeaconOccurrence.CONTENT_VIEWABLE_LIST_URI, null);
   }
 
   private void parseContent(XmlResourceParser parser) {
@@ -276,14 +296,14 @@ public class SalsaBeacon implements Parcelable {
     String contentType = "";
     try {
       while(XmlResourceParser.END_DOCUMENT != parser.next()) {
-        Log.d(TAG+" EVENT", String.valueOf(parser.getEventType()));
+        Log.d(TAG, "EVENT " + String.valueOf(parser.getEventType()));
         switch (parser.getEventType()) {
 
           case XmlResourceParser.START_DOCUMENT:
             continue;
 
           case XmlResourceParser.START_TAG:
-            Log.d(TAG+" START_TAG", "'"+parser.getName()+"'");
+            Log.d(TAG, "START_TAG '" + parser.getName() + "'");
             if (!parser.getName().equals("beacon") && !validRoot) {
               throw new XmlPullParserException("Invalid root element");
             }
@@ -296,7 +316,7 @@ public class SalsaBeacon implements Parcelable {
             continue;
 
           case XmlResourceParser.TEXT:
-            Log.d(TAG+" TEXT", parser.getText());
+            Log.d(TAG, "TEXT " + parser.getText());
             switch (contentType) {
               case "title":
                 mTitle = parser.getText();

@@ -1,3 +1,24 @@
+/*
+ * This file is part of Salsa Beacons
+ *
+ * Salsa Beacons is a Bluetooth LE aware Android app that enables location dependant learning
+ * author:  Richard Greenwood <richard.greenwood@open.ac.uk>
+ * Copyright (C) 2015 The Open University
+ *
+ * Salsa Beacons is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * any later version.
+ *
+ * Salsa Beacons is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+
+ * You should have received a copy of the GNU General Public License
+ * along with Salsa Beacons.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package uk.ac.open.salsabeacons;
 
 import android.app.Activity;
@@ -28,17 +49,17 @@ public class LifecycleHandler implements Application.ActivityLifecycleCallbacks 
     Log.d(TAG, "onActivityResumed");
     BeaconReferenceApplication application =
         (BeaconReferenceApplication) BeaconReferenceApplication.getContext();
-    application.clearBuffer();
+    //application.clearBuffer();
     application.cancelNotification();
   }
 
   public void onActivityPaused(Activity activity) {
     ++paused;
     Log.d(TAG, "onActivityPaused");
-    BeaconReferenceApplication application =
-        (BeaconReferenceApplication) BeaconReferenceApplication.getContext();
-    application.populateScreenOffBuffer();
-    SalsaBeacon.updateOccurrencesToDb();
+    //BeaconReferenceApplication application =
+    //    (BeaconReferenceApplication) BeaconReferenceApplication.getContext();
+    //application.populateScreenOffBuffer();
+    SalsaBeacon.logOccurrencesToDb();
   }
 
   public void onActivitySaveInstanceState(Activity activity, Bundle outState) {

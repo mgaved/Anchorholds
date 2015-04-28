@@ -37,7 +37,7 @@ MERGED from com.android.support:appcompat-v7:21.0.3:16:5
 MERGED from com.android.support:support-v4:21.0.3:16:5
 MERGED from org.altbeacon:android-beacon-library:2.1.4:15:5
 	android:label
-		ADDED from AndroidManifest.xml:15:9
+		ADDED from AndroidManifest.xml:14:9
 	android:allowBackup
 		ADDED from AndroidManifest.xml:12:9
 	android:icon
@@ -45,47 +45,43 @@ MERGED from org.altbeacon:android-beacon-library:2.1.4:15:5
 	android:theme
 		ADDED from AndroidManifest.xml:16:9
 	android:logo
-		ADDED from AndroidManifest.xml:14:9
+		ADDED from AndroidManifest.xml:15:9
 	android:name
 		ADDED from AndroidManifest.xml:11:9
 provider#uk.ac.open.salsabeacons.SalsaProvider
-ADDED from AndroidManifest.xml:18:9
+ADDED from AndroidManifest.xml:17:9
 	android:authorities
-		ADDED from AndroidManifest.xml:20:13
-	android:name
 		ADDED from AndroidManifest.xml:19:13
+	android:name
+		ADDED from AndroidManifest.xml:18:13
 activity#uk.ac.open.salsabeacons.MonitoringActivity
-ADDED from AndroidManifest.xml:22:9
+ADDED from AndroidManifest.xml:21:9
 	android:label
-		ADDED from AndroidManifest.xml:24:13
-	android:launchMode
-		ADDED from AndroidManifest.xml:25:13
-	android:name
 		ADDED from AndroidManifest.xml:23:13
-intent-filter#android.intent.action.MAIN+android.intent.category.LAUNCHER
-ADDED from AndroidManifest.xml:26:13
-action#android.intent.action.MAIN
-ADDED from AndroidManifest.xml:27:17
+	android:launchMode
+		ADDED from AndroidManifest.xml:24:13
 	android:name
-		ADDED from AndroidManifest.xml:27:25
+		ADDED from AndroidManifest.xml:22:13
+intent-filter#android.intent.action.MAIN+android.intent.category.LAUNCHER
+ADDED from AndroidManifest.xml:25:13
+action#android.intent.action.MAIN
+ADDED from AndroidManifest.xml:26:17
+	android:name
+		ADDED from AndroidManifest.xml:26:25
 category#android.intent.category.LAUNCHER
 ADDED from AndroidManifest.xml:28:17
 	android:name
 		ADDED from AndroidManifest.xml:28:27
-activity#uk.ac.open.salsabeacons.RangingActivity
+activity#uk.ac.open.salsabeacons.ContentWebViewActivity
 ADDED from AndroidManifest.xml:31:9
 	android:label
 		ADDED from AndroidManifest.xml:33:13
+	android:parentActivityName
+		ADDED from AndroidManifest.xml:35:13
+	android:configChanges
+		ADDED from AndroidManifest.xml:34:13
 	android:name
 		ADDED from AndroidManifest.xml:32:13
-activity#uk.ac.open.salsabeacons.BeaconInfoActivity
-ADDED from AndroidManifest.xml:35:9
-	android:label
-		ADDED from AndroidManifest.xml:37:13
-	android:parentActivityName
-		ADDED from AndroidManifest.xml:38:13
-	android:name
-		ADDED from AndroidManifest.xml:36:13
 uses-sdk
 INJECTED from AndroidManifest.xml:0:0 reason: use-sdk injection requested
 MERGED from com.android.support:appcompat-v7:21.0.3:15:5

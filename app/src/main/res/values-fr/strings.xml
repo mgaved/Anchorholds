@@ -5,11 +5,28 @@
 
     <string name="app_name">Salsa balises</string>
     <string name="main_activity">balises</string>
+    <string name="content_web_view">content</string>
     <string name="beaconInfo">Informations de balise</string>
-    <string name="action_settings">Paramètres</string>
+    <string name="action_about">Environ</string>
+    <string name="action_help">Aider</string>
+    <string name="action_terms">termes</string>
     <string name="title_activity_beacon_info">Informations de balise</string>
-    <string name="scanning">Recherche de balises ...</string>
+    <string name="scanning">Recherche de balises ...</string>]
+    <string name="non_scanning">Balises vous avez été près de</string>
     <string name="notification">Une balise a été détectée</string>
+
+    <string name="bluetooth_enabled">Bluetooth n\'a pas été activée</string>
+    <string name="bluetooth_not_enabled_title">Bluetooth ne est pas activée</string>
+    <string name="bluetooth_not_enabled_message">Il n\'a pas été possible d\'activer Bluetooth. Vous ne verrez pas de nouvelles balises de salsa jusqu\'à Bluetooth est activée</string>
+    <string name="bluetooth_LE_not_available_title">LE Bluetooth non disponible</string>
+    <string name="bluetooth_LE_not_available_message">Désolé, cet appareil ne prend pas en charge Bluetooth LE.</string>
+
+    <string name="no_salsa_beacons_present">Pas de balises de Salsa</string>
+    <string name="selected">sélectionné</string>
+    <string name="delete_action">Effacer</string>
+    <string name="cancel_action">Annuler</string>
+    <string name="dialog_delete_beacon_title">Supprimé balise Salsa?</string>
+    <string name="dialog_delete_beacon_message">Etes-vous sûr que vous voulez supprimer: \"%1$s\"</string>
 
     <string name="region">Région</string>
     <string name="estimated_proximity">distance en mètres (environ)</string>
@@ -387,5 +404,5 @@
     <string name="fa_vimeo_square">&#xf194;</string>
     <string name="fa_try">&#xf195;</string>
     <string name="fa_plus_square_o">&#xf196;</string>
-
+    <string name="fa_trash">&#xf1f8;</string>
 </resources>
