@@ -67,10 +67,10 @@ public class BeaconReferenceApplication extends Application implements Bootstrap
     mLifecycleHandler = new LifecycleHandler();
     registerActivityLifecycleCallbacks(mLifecycleHandler);
     beaconManager = org.altbeacon.beacon.BeaconManager.getInstanceForApplication(this);
-    beaconManager.setForegroundScanPeriod(1800);
+    beaconManager.setForegroundScanPeriod(2000);
     beaconManager.setForegroundBetweenScanPeriod(300);
-    beaconManager.setBackgroundScanPeriod(2200);
-    beaconManager.setBackgroundBetweenScanPeriod(10000);
+    beaconManager.setBackgroundScanPeriod(2400);
+    beaconManager.setBackgroundBetweenScanPeriod(5000);
     // By default the AndroidBeaconLibrary will only find AltBeacons.  If you wish to make it
     // find a different type of beacon, you must specify the byte layout for that beacon's
     // advertisement with a line like below.  The example shows how to find a beacon with the

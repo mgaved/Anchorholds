@@ -27,6 +27,7 @@ import android.database.Cursor;
 import android.graphics.Color;
 import android.text.Html;
 import android.text.format.DateFormat;
+import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.ResourceCursorAdapter;
@@ -67,8 +68,8 @@ public class SalsaBeaconCursorAdapter extends ResourceCursorAdapter {
 
     TextView iconView = (TextView) view.findViewById(R.id.beacon_type_icon);
     TextView title = (TextView) view.findViewById(R.id.beacon_name);
-    TextView timestamp = (TextView) view.findViewById(R.id.beacon_timestamp);
-    TextView proximityText = (TextView) view.findViewById(R.id.beacon_proximity);
+    TextView logInfo = (TextView) view.findViewById(R.id.beacon_last_logged);
+    TextView views = (TextView) view.findViewById(R.id.beacon_views);
     title.setText(Html.fromHtml(beacon.toString()), TextView.BufferType.SPANNABLE);
     Integer iconResourceId = R.string.fa_globe;
     if(beacon.isUnassigned()) {
@@ -82,28 +83,41 @@ public class SalsaBeaconCursorAdapter extends ResourceCursorAdapter {
     java.text.DateFormat time = DateFormat.getTimeFormat(BeaconReferenceApplication.getContext());
     java.text.DateFormat date = DateFormat.getDateFormat(BeaconReferenceApplication.getContext());
     double proximity = (double) Math.round(beacon.getLastProximity() * 100) / 100;
-    String viewedDetails = "times encountered: " + Integer.toString(occurrences);
+    String viewedDetails = "";
     if(beacon.viewed()) {
       int grey = Color.parseColor("#9C9C9C");
       title.setTextColor(grey);
       iconView.setTextColor(grey);
-      timestamp.setTextColor(grey);
-      proximityText.setTextColor(grey);
-      viewedDetails += " viewed at: "+ date.format(beacon.getViewedAt()) + " "
+      logInfo.setTextColor(grey);
+      views.setTextColor(grey);
+      String viewedDateStr = " ";
+      if(!DateUtils.isToday(beacon.getViewedAt().getTime())) {
+        viewedDateStr = date.format(beacon.getViewedAt()) + " ";
+      }
+      viewedDetails += " | " + resources.getString(R.string.list_viewed) + ": "
+          + viewedDateStr
           + time.format(beacon.getViewedAt());
     } else {
       int black = Color.parseColor("#000000");
       title.setTextColor(black);
       iconView.setTextColor(black);
-      timestamp.setTextColor(black);
-      proximityText.setTextColor(black);
+      logInfo.setTextColor(black);
+      views.setTextColor(black);
     }
-    timestamp.setText(
-        date.format(beacon.getLastLogged()) + " "
-            + time.format(beacon.getLastLogged())
-            + viewedDetails
+    String dateStr = " ";
+    if(!DateUtils.isToday(beacon.getLastLogged().getTime())) {
+      dateStr = date.format(beacon.getLastLogged()) + " ";
+    }
+    logInfo.setText(
+        resources.getString(R.string.list_detected) + ": "
+        + dateStr
+        + time.format(beacon.getLastLogged())
+        + viewedDetails
     );
-    proximityText.setText(resources.getString(R.string.region) + ": " +beacon.getRegion() + " | " +resources.getString(R.string.estimated_proximity)
-        + ": " + proximity);
+    views.setText(
+        resources.getString(R.string.estimated_proximity) + ": " + proximity + "m"
+        + "\n"
+        + resources.getString(R.string.list_occurrences) + ": " + Integer.toString(occurrences)
+    );
   }
 }

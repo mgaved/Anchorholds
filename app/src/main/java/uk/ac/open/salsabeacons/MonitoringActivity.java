@@ -41,6 +41,8 @@ import android.widget.Toast;
 
 import org.altbeacon.beacon.BeaconManager;
 
+import java.util.Locale;
+
 /**
  * Created by rmg29 on 22/01/2015.
  */
@@ -49,6 +51,7 @@ public class MonitoringActivity extends Activity implements BeaconListFragment.O
   static final String STATE_LAST_CLICKED = "lastClickedItem";
   private int mLastClickedListItem = 0;
   private boolean mIsDualPane;
+  private String mDirSpecifier;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +60,8 @@ public class MonitoringActivity extends Activity implements BeaconListFragment.O
     if (savedInstanceState != null) {
       mLastClickedListItem = savedInstanceState.getInt(STATE_LAST_CLICKED);
     }
+    Locale userLocale = Locale.getDefault();
+    mDirSpecifier = userLocale.getLanguage() == "en" ? "" : "-" + userLocale.getLanguage();
     Resources res = getResources();
     String appName = res.getString(R.string.main_activity);
     String version = res.getString(R.string.salsa_app_version);
@@ -96,7 +101,7 @@ public class MonitoringActivity extends Activity implements BeaconListFragment.O
   private void openHelp() {
     Intent intent = new Intent(this, ContentWebViewActivity.class);
     Resources resources = getResources();
-    Uri aboutUri = Uri.parse("file:///android_asset/action-menu-content/dummy-content.html");
+    Uri aboutUri = Uri.parse("file:///android_asset/action-menu-content" + mDirSpecifier + "/help-content.html");
     intent.putExtra("title", resources.getString(R.string.action_help));
     intent.setData(aboutUri);
     startActivity(intent);
@@ -105,7 +110,7 @@ public class MonitoringActivity extends Activity implements BeaconListFragment.O
   private void openAbout() {
     Intent intent = new Intent(this, ContentWebViewActivity.class);
     Resources resources = getResources();
-    Uri aboutUri = Uri.parse("file:///android_asset/action-menu-content/dummy-content.html");
+    Uri aboutUri = Uri.parse("file:///android_asset/action-menu-content" + mDirSpecifier + "/about-content.html");
     intent.putExtra("title", resources.getString(R.string.action_about));
     intent.setData(aboutUri);
     startActivity(intent);
@@ -114,7 +119,7 @@ public class MonitoringActivity extends Activity implements BeaconListFragment.O
   private void openTerms() {
     Intent intent = new Intent(this, ContentWebViewActivity.class);
     Resources resources = getResources();
-    Uri aboutUri = Uri.parse("file:///android_asset/action-menu-content/dummy-content.html");
+    Uri aboutUri = Uri.parse("file:///android_asset/action-menu-content" + mDirSpecifier + "/terms-content.html");
     intent.putExtra("title", resources.getString(R.string.action_terms));
     intent.setData(aboutUri);
     startActivity(intent);

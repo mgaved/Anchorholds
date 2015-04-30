@@ -29,7 +29,10 @@
     <string name="dialog_delete_beacon_message">Etes-vous sûr que vous voulez supprimer: \"%1$s\"</string>
 
     <string name="region">Région</string>
-    <string name="estimated_proximity">distance en mètres (environ)</string>
+    <string name="estimated_proximity">Environ la distance</string>
+    <string name="list_detected">Détecté</string>
+    <string name="list_viewed">Consulté</string>
+    <string name="list_occurrences">Événements</string>
 
     <string name="region_0">Walton Hall</string>
     <string name="region_1">Milton Keynes</string>
