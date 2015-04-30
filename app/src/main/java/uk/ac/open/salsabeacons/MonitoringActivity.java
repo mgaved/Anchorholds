@@ -61,7 +61,7 @@ public class MonitoringActivity extends Activity implements BeaconListFragment.O
       mLastClickedListItem = savedInstanceState.getInt(STATE_LAST_CLICKED);
     }
     Locale userLocale = Locale.getDefault();
-    mDirSpecifier = userLocale.getLanguage() == "en" ? "" : "-" + userLocale.getLanguage();
+    mDirSpecifier = userLocale.getLanguage().equals("en") ? "" : "-" + userLocale.getLanguage();
     Resources res = getResources();
     String appName = res.getString(R.string.main_activity);
     String version = res.getString(R.string.salsa_app_version);
