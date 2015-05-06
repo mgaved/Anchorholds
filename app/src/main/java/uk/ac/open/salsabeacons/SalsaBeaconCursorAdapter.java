@@ -94,7 +94,7 @@ public class SalsaBeaconCursorAdapter extends ResourceCursorAdapter {
       if(!DateUtils.isToday(beacon.getViewedAt().getTime())) {
         viewedDateStr = date.format(beacon.getViewedAt()) + " ";
       }
-      viewedDetails += " | " + resources.getString(R.string.list_viewed) + ": "
+      viewedDetails += "\n" + resources.getString(R.string.list_viewed) + ": "
           + viewedDateStr
           + time.format(beacon.getViewedAt());
     } else {
@@ -115,9 +115,10 @@ public class SalsaBeaconCursorAdapter extends ResourceCursorAdapter {
         + viewedDetails
     );
     views.setText(
-        resources.getString(R.string.estimated_proximity) + ": " + proximity + "m"
-        + "\n"
-        + resources.getString(R.string.list_occurrences) + ": " + Integer.toString(occurrences)
+        //resources.getString(R.string.estimated_proximity) + ": " + proximity + "m"
+        //+ "\n"
+        //+
+        resources.getString(R.string.list_occurrences) + ": " + Integer.toString(occurrences)
     );
   }
 }

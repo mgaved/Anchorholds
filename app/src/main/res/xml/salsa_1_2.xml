@@ -2,7 +2,6 @@
 <beacon>
     <title>This land is our land</title>
     <uri>file:///android_asset/beacons/salsa_1_2/content.html</uri>
-    <occurrence_validity_distance>2</occurrence_validity_distance>
-    <!-- <occurrence_validity_period>43200</occurrence_validity_period> 24 hours -->
-    <occurrence_validity_period>300</occurrence_validity_period> <!-- 5 minutes -->
+    <occurrence_validity_distance>10</occurrence_validity_distance>
+    <occurrence_validity_period>21600</occurrence_validity_period> <!-- 6 hours -->
 </beacon>

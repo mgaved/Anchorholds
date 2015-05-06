@@ -25,7 +25,6 @@ import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.content.res.Configuration;
 import android.content.res.Resources;
-import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.AlertDialog;
@@ -36,7 +35,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import org.altbeacon.beacon.BeaconManager;
@@ -49,9 +47,14 @@ import java.util.Locale;
 public class MonitoringActivity extends Activity implements BeaconListFragment.OnListFragmentInteractionListener {
   protected static final String TAG = "MonitoringActivity";
   static final String STATE_LAST_CLICKED = "lastClickedItem";
-  private int mLastClickedListItem = 0;
+  private long mLastClickedListItem = 0;
   private boolean mIsDualPane;
   private String mDirSpecifier;
+
+  public static final String[] sOccurenceProjection = {
+      Salsa.BeaconOccurrence._ID,
+      Salsa.BeaconOccurrence.COLUMN_NAME_BEACON_NAME
+  };
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +68,8 @@ public class MonitoringActivity extends Activity implements BeaconListFragment.O
     Resources res = getResources();
     String appName = res.getString(R.string.main_activity);
     String version = res.getString(R.string.salsa_app_version);
-    setTitle(appName+" "+version);
+    //setTitle(appName+" "+version);
+    setTitle(appName);
     setContentView(R.layout.activity_monitoring);
     ContentWebViewFragment contentFragment = (ContentWebViewFragment) getFragmentManager()
         .findFragmentById(R.id.content_fragment);
@@ -136,7 +140,7 @@ public class MonitoringActivity extends Activity implements BeaconListFragment.O
 
   @Override
   protected void onSaveInstanceState(Bundle outState) {
-    outState.putInt(STATE_LAST_CLICKED, mLastClickedListItem);
+    outState.putLong(STATE_LAST_CLICKED, mLastClickedListItem);
     super.onSaveInstanceState(outState);
   }
 
@@ -192,22 +196,10 @@ public class MonitoringActivity extends Activity implements BeaconListFragment.O
   }
 
   @Override
-  public void onListFragmentInteraction(int position) {
-    mLastClickedListItem = position;
-    BeaconListFragment listFrag = (BeaconListFragment) getFragmentManager()
-        .findFragmentById(R.id.beaconlisting);
-    ListView list = listFrag.getListView();
-    Cursor listItemCursor = (Cursor) list.getItemAtPosition(position);
-    SalsaBeacon beacon;
-    try {
-      String beaconName = listItemCursor.getString(
-          listItemCursor.getColumnIndexOrThrow(Salsa.BeaconOccurrence.COLUMN_NAME_BEACON_NAME)
-      );
-      beacon = SalsaBeacon.getInstance(beaconName);
-    } catch (IllegalArgumentException | NullPointerException e) {
-      return;
-    }
-    if(beacon.isUnassigned()) {
+  public void onListFragmentInteraction(long id) {
+    mLastClickedListItem = id;
+    SalsaBeacon beacon = SalsaBeacon.getInstance(id);
+    if(beacon == null || beacon.isUnassigned()) {
       return;
     }
     beacon.logOccurrenceViewed();
@@ -228,7 +220,7 @@ public class MonitoringActivity extends Activity implements BeaconListFragment.O
     }
   }
 
-  public int getLastClicked() {
+  public long getLastClicked() {
     return mLastClickedListItem;
   }
 }

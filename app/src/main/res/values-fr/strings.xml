@@ -10,6 +10,7 @@
     <string name="action_about">Environ</string>
     <string name="action_help">Aider</string>
     <string name="action_terms">termes</string>
+    <string name="action_show_deleted">spectacle supprimé</string>
     <string name="title_activity_beacon_info">Informations de balise</string>
     <string name="scanning">Recherche de balises ...</string>]
     <string name="non_scanning">Balises vous avez été près de</string>

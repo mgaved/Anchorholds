@@ -120,30 +120,22 @@ public class BeaconListFragment extends ListFragment implements LoaderManager.Lo
 
   private void deleteSelectedItems() {
     ListView listView = getListView();
-    SparseBooleanArray checkedItems = listView.getCheckedItemPositions();
-    if (checkedItems != null) {
-      for (int i=0; i<checkedItems.size(); i++) {
-        if (checkedItems.valueAt(i)) {
-          Cursor listItemCursor = (Cursor) listView.getItemAtPosition(checkedItems.keyAt(i));
-          SalsaBeacon beacon;
-          try {
-            String beaconName = listItemCursor.getString(
-                listItemCursor.getColumnIndexOrThrow(Salsa.BeaconOccurrence.COLUMN_NAME_BEACON_NAME)
-            );
-            beacon = SalsaBeacon.getInstance(beaconName);
-            beacon.setDeletedFlag();
-          } catch (IllegalArgumentException e) {
-            continue;
-          }
-        }
+    long[] itemIds = listView.getCheckedItemIds();
+    for (int i=0; i<itemIds.length; i++) {
+      Log.d(TAG, "delete! " + itemIds[i]);
+      SalsaBeacon beacon = SalsaBeacon.getInstance(itemIds[i]);
+      Log.d(TAG, "delete! " + beacon);
+      if(beacon == null) {
+        continue;
       }
+      beacon.setDeletedFlag();
     }
   }
 
   @Override
   public void onListItemClick(ListView l, View v, int position, long id) {
     if (mListener != null) {
-      mListener.onListFragmentInteraction(position);
+      mListener.onListFragmentInteraction(id);
     }
   }
 
@@ -217,7 +209,7 @@ public class BeaconListFragment extends ListFragment implements LoaderManager.Lo
    */
   public interface OnListFragmentInteractionListener {
     // TODO: Update argument type and name
-    public void onListFragmentInteraction(int position);
-    public int getLastClicked();
+    public void onListFragmentInteraction(long position);
+    public long getLastClicked();
   }
 }
