@@ -60,8 +60,8 @@ public class BeaconListFragment extends ListFragment implements LoaderManager.Lo
     setEmptyText(resources.getString(R.string.no_salsa_beacons_present));
 
     // Context menu delete functionality
-    // commented out for the purposes of data collection on this trial
-    /*ListView listView = getListView();
+    // comment this out for the purposes of data collection on the trial
+    ListView listView = getListView();
     listView.setSelector(R.drawable.list_item_selector);
     listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
     listView.setItemsCanFocus(false);
@@ -103,7 +103,8 @@ public class BeaconListFragment extends ListFragment implements LoaderManager.Lo
       public void onDestroyActionMode(ActionMode mode) {
 
       }
-    });*/
+    });
+    // End of section to comment out
 
     // Create an empty adapter we will use to display the loaded data.
     mAdapter = new SalsaBeaconCursorAdapter(getActivity(), R.layout.beacon_list, null, 0);

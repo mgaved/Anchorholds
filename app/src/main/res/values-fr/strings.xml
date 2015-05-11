@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="salsa_app_version">0.5</string>
+    <string name="salsa_app_version">0.6</string>
 
     <string name="app_name">Salsa balises</string>
     <string name="main_activity">balises</string>
