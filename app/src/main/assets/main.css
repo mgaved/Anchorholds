@@ -1,0 +1,117 @@
+body {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 100;
+    padding: 0;
+    margin: 0;
+}
+
+p, div, ol, ul, li {
+    font-weight:100;
+}
+
+h1, h2, h3, h4, {
+    font-weight:300;
+}
+
+a { text-decoration: none; }
+a:hover { color: red; }
+
+h1 {
+    font-size:34px;
+}
+
+.index ol {
+    font-size: 18px;
+    font-weight:100;
+}
+
+
+.dialogue_index p {
+    background-color: rgb(0,120,200);
+    padding-left:24px;
+    padding-top:16px;
+    padding-bottom:8px;
+    height:28px;
+    color:white;
+
+}
+
+
+.container {
+  position: relative;
+  padding: 24px 24px 24px 24px;
+}
+
+.header {
+background-color: rgb(0,120,200);
+background-image: url(images/menu.png);
+background-repeat: no-repeat;
+background-size: 48px 48px;
+background-position: top right;
+padding-left:24px;
+padding-top:16px;
+padding-bottom:8px;
+height:28px;
+color:white;
+}
+
+.menu {
+  position: absolute;
+  z-index: 100;
+  right:9999px;
+  top:10px; 
+}
+
+.header:hover .menu {
+  right: 10px;
+}
+
+.menu li {
+    list-style: none;
+}
+
+.menu li a {
+  display:block;
+  padding: 5px 12px;
+  background: rgb(100,180,220);
+}
+
+.menu li a:hover {
+  background: rgb(200,220,230);
+}
+
+
+.vocab h4 {
+    margin-bottom:0px;
+    margin-top:36px
+}
+
+.vocab p {
+    padding-left:15px;
+    margin-top:12px;
+    margin-bottom:12px
+}
+
+.vocab audio {
+    padding-left:15px;
+}
+
+.example p {
+    padding-left:15px;
+    margin:5px;
+    font-style: italic;
+}
+
+.example {
+    background: rgb(200,220,230); 
+    padding:8px
+}
+
+.question_pair {
+    margin:18px
+}
+
+.question_pair p {
+    margin-top:3px;
+    margin-bottom:0px
+}
