@@ -22,8 +22,8 @@
   -->
 
 <beacon>
-    <title><![CDATA[C<sub>4</sub> in S<sub>4</sub>]]></title>
-    <uri>file:///android_asset/beacons/salsa_2_2/content.html</uri>
+    <title>Learning Together</title>
+    <uri>file:///android_asset/beacons/salsa_2_3/content.html</uri>
     <occurrence_validity_distance>10</occurrence_validity_distance>
     <occurrence_validity_period>216000</occurrence_validity_period> <!-- 6 hours -->
 </beacon>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <beacon>
-    <title><![CDATA[C<sub>4</sub> dans S<sub>4</sub>]]></title>
-    <uri>file:///android_asset/beacons-fr/salsa_2_2/content.html</uri>
+    <title>Apprendre Ensemble</title>
+    <uri>file:///android_asset/beacons-fr/salsa_2_3/content.html</uri>
     <occurrence_validity_distance>10</occurrence_validity_distance>
     <occurrence_validity_period>216000</occurrence_validity_period>
 </beacon>

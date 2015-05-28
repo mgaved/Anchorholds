@@ -221,7 +221,7 @@ public class SalsaBeacon implements Parcelable {
       mDbUri = Uri.withAppendedPath(
           Salsa.BeaconOccurrence.CONTENT_ID_URI_BASE,
           occurrences.getString(occurrences.getColumnIndexOrThrow(Salsa.BeaconOccurrence._ID))
-       );
+      );
       mFirstLogged = occurrences.getLong(
           occurrences.getColumnIndexOrThrow(Salsa.BeaconOccurrence.COLUMN_NAME_FIRST_LOGGED)
       );

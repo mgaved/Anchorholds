@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<beacon>
-    <title>Body Weave</title>
-    <uri>file:///android_asset/beacons/salsa_1_1/content.html</uri>
-    <occurrence_validity_distance>3</occurrence_validity_distance>
-    <occurrence_validity_period>300</occurrence_validity_period> <!-- 5 minutes -->
-</beacon>

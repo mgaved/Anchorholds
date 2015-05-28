@@ -1,16 +1,61 @@
 body {
-  font-family: Tahoma, sans-serif;
-  color: #1f536b;
-  background-color: #dbdfdb;
+  font: 1.14em verdana, sans-serif;
+  color: #222222;
+  margin: 25px 0 0 0;
+  padding: 0;
+}
+
+#stripes {
+  height: 20px;
+  margin: 20px 0 0 0;
+  background: #e55d0e; /* Old browsers */
+  background: -moz-linear-gradient(top, #e55d0e 0%, #e55d0e 20%, #ffffff 20%, #ffffff 20%, #ffffff 40%, #e55d0e 40%, #e55d0e 40%, #e55d0e 60%, #ffffff 60%, #ffffff 80%, #e55d0e 80%); /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#e55d0e), color-stop(20%,#e55d0e), color-stop(20%,#ffffff), color-stop(20%,#ffffff), color-stop(40%,#ffffff), color-stop(40%,#e55d0e), color-stop(40%,#e55d0e), color-stop(60%,#e55d0e), color-stop(60%,#ffffff), color-stop(80%,#ffffff), color-stop(80%,#e55d0e)); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top, #e55d0e 0%,#e55d0e 20%,#ffffff 20%,#ffffff 20%,#ffffff 40%,#e55d0e 40%,#e55d0e 40%,#e55d0e 60%,#ffffff 60%,#ffffff 80%,#e55d0e 80%); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top, #e55d0e 0%,#e55d0e 20%,#ffffff 20%,#ffffff 20%,#ffffff 40%,#e55d0e 40%,#e55d0e 40%,#e55d0e 60%,#ffffff 60%,#ffffff 80%,#e55d0e 80%); /* Opera 11.10+ */
+  background: -ms-linear-gradient(top, #e55d0e 0%,#e55d0e 20%,#ffffff 20%,#ffffff 20%,#ffffff 40%,#e55d0e 40%,#e55d0e 40%,#e55d0e 60%,#ffffff 60%,#ffffff 80%,#e55d0e 80%); /* IE10+ */
+  background: linear-gradient(to bottom, #e55d0e 0%,#e55d0e 20%,#ffffff 20%,#ffffff 20%,#ffffff 40%,#e55d0e 40%,#e55d0e 40%,#e55d0e 60%,#ffffff 60%,#ffffff 80%,#e55d0e 80%); /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e55d0e', endColorstr='#e55d0e',GradientType=0 ); /* IE6-9 */
+}
+
+#content {
+  margin: 0 auto;
+  width: 90%;
+}
+
+.content-bg:first-child {
+  padding-top: 75px;
 }
 
 .idiom, .explanation {
   font-weight: bold;
 }
 
+h1, h2, h3 {
+  color: #e55d0e;
+  margin: 12px 0 0 0;
+  font-weight: normal;
+}
+
 h1 {
-  color: #00b0ac;
-  font-size: 2em;
+  font-size: 1.34em;
+}
+
+h2 {
+  font-size: 1.24em;
+}
+
+h3 {
+  font-size: 1.14em;
+}
+
+.logo {
+  text-align: right;
+}
+
+.logo img {
+  margin: 18px;
+  width: 150px;
 }
 
 blockquote {
@@ -26,23 +71,41 @@ figure {
   margin: 10px 0;
 }
 
+figure img {
+  width: 100%;
+}
+
+figure img.horiz {
+  max-width: 355px;
+}
+
+figure img.vert {
+  max-width: 200px;
+}
+
 p {
   margin: 6px 0;
 }
 
 a {
-  color: #4e247b;
+  color: #0033cc;
   text-decoration: none;
 }
 
 a:hover, a:active, a:focus {
-  color: #e80074;
+  color: #0033cc;
+}
+
+dl {
+  margin: 6px 0;
 }
 
 dt {
+  float: left;
   font-weight: bold;
+  margin-right: 12px;
 }
 
 dd {
-  margin: 0 0 0 15px;
+  margin: 0;
 }
