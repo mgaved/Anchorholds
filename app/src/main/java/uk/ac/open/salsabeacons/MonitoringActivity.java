@@ -149,6 +149,19 @@ public class MonitoringActivity extends Activity implements BeaconListFragment.O
     super.onPause();
   }
 
+  @Override
+  public void onBackPressed() {
+    if(mIsDualPane) {
+      ContentWebViewFragment contentFragment = (ContentWebViewFragment) getFragmentManager()
+          .findFragmentById(R.id.content_fragment);
+      if(contentFragment!= null && contentFragment.goBack()) {
+        return;
+      }
+    }
+    // Otherwise defer to system default behavior.
+    super.onBackPressed();
+  }
+
   private void verifyBluetooth() {
     try {
       if (!BeaconManager.getInstanceForApplication(this).checkAvailability()) {

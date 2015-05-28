@@ -64,7 +64,7 @@ color:white;
   z-index: 100;
 }
 
-.header:hover .menu, .header:focus .menu, .menu:hover, .menu:focus {
+.header:hover .menu, .header:focus .menu {
   right: 30px;
 }
 
