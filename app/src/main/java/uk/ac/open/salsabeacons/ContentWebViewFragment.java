@@ -90,4 +90,14 @@ public class ContentWebViewFragment extends WebViewFragment {
     }
   }
 
+  public boolean goBack() {
+    WebView view = getWebView();
+
+    if (view.canGoBack()) {
+      view.goBack();
+      return true;
+    }
+    return false;
+  }
+
 }

@@ -52,4 +52,15 @@ public class ContentWebViewActivity extends Activity {
       finish();
     }
   }
+
+  @Override
+  public void onBackPressed() {
+    ContentWebViewFragment contentFragment = (ContentWebViewFragment) getFragmentManager()
+        .findFragmentById(R.id.container);
+    if(contentFragment!= null && contentFragment.goBack()) {
+      return;
+    }
+    // Otherwise defer to system default behavior.
+    super.onBackPressed();
+  }
 }
