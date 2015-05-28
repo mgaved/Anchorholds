@@ -56,14 +56,16 @@ color:white;
 }
 
 .menu {
+  margin: 0;
+  padding: 0;
   position: absolute;
+  right: 9999px;
+  top: 54px;
   z-index: 100;
-  right:9999px;
-  top:10px; 
 }
 
-.header:hover .menu {
-  right: 10px;
+.header:hover .menu, .header:focus .menu, .menu:hover, .menu:focus {
+  right: 30px;
 }
 
 .menu li {
