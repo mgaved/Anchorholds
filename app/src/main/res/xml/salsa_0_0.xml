@@ -31,7 +31,7 @@
     <!-- The title of the beacon -->
     <title>At the council offices</title>
     <!-- uri should contain either a file:/// pointer or a http:// or https:// pointer -->
-    <uri>file:///android_asset/1_council_offices/0_intro_council_offices.html</uri>
+    <uri>file:///android_asset/1_council_offices/index.html</uri>
     <!--
         occurrence_validity_distance is the distance in meters which is deemed as being contact
         with with the device
