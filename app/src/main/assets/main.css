@@ -13,11 +13,25 @@ h1, h2, h3, h4, {
     font-weight:300;
 }
 
-a { text-decoration: none; }
-a:hover { color: red; }
+b {
+  font-weight: 600;
+}
+
+a { 
+    text-decoration: none;
+    color: rgb(0,120,200);
+}
+
+a:hover { color: rgb(100,180,220); }
+a:visited {color: rgb(0, 0, 102);}
 
 h1 {
     font-size:34px;
+}
+
+.bg-img {
+  width: 100%;
+  max-width: 750px;
 }
 
 .index ol {
@@ -60,11 +74,11 @@ color:white;
   padding: 0;
   position: absolute;
   right: 9999px;
-  top: 54px;
+  top: 52px;
   z-index: 100;
 }
 
-.header:hover .menu, .header:focus .menu {
+.header:hover .menu, .header:focus .menu, .menu:hover, .menu:focus {
   right: 30px;
 }
 
@@ -74,12 +88,14 @@ color:white;
 
 .menu li a {
   display:block;
-  padding: 5px 12px;
+  padding: 15px 40px;
   background: rgb(100,180,220);
+    color:rgb(0, 0, 102);
 }
 
 .menu li a:hover {
   background: rgb(200,220,230);
+    color: rgb(0,120,200);
 }
 
 
@@ -107,6 +123,11 @@ color:white;
 .example {
     background: rgb(200,220,230); 
     padding:8px
+}
+
+.example ul li {
+  font-style: italic;
+  list-style: outside none none;
 }
 
 .question_pair {
