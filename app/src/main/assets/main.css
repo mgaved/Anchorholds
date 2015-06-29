@@ -1,16 +1,23 @@
 body {
-    font-family: 'Roboto', sans-serif;
-    font-weight: 100;
-    padding: 0;
-    margin: 0;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 100;
+  padding: 0;
+  margin: 0;
 }
 
 p, div, ol, ul, li {
-    font-weight:100;
+  font-weight: 100;
 }
 
-h1, h2, h3, h4, {
-    font-weight:300;
+h1 {
+  display: inline;
+  font-size: 1rem;
+  font-weight: 600;
+  margin-left: 24px;
+}
+
+h2, h3, h4, {
+  font-weight: 300;
 }
 
 b {
@@ -18,15 +25,23 @@ b {
 }
 
 a { 
-    text-decoration: none;
-    color: rgb(0,120,200);
+  text-decoration: none;
+  color: rgb(0,120,200);
 }
 
-a:hover { color: rgb(100,180,220); }
-a:visited {color: rgb(0, 0, 102);}
+a:hover { 
+  color: rgb(100,180,220); 
+}
+a:visited {
+  color: rgb(0, 0, 102);
+}
 
-h1 {
-    font-size:34px;
+audio {
+  display: block;
+}
+
+li audio {
+    margin: 4px 0;
 }
 
 .bg-img {
@@ -35,38 +50,43 @@ h1 {
 }
 
 .index ol {
-    font-size: 18px;
-    font-weight:100;
+  font-size: 18px;
+  font-weight: 100;
 }
 
 
 .dialogue_index p {
-    background-color: rgb(0,120,200);
-    padding-left:24px;
-    padding-top:16px;
-    padding-bottom:8px;
-    height:28px;
-    color:white;
-
+  background-color: rgb(0,120,200);
+  padding-left: 24px;
+  padding-top: 16px;
+  padding-bottom: 8px;
+  height: 28px;
+  color: white;
 }
 
 
 .container {
   position: relative;
-  padding: 24px 24px 24px 24px;
+  padding: 3rem 24px 24px;
 }
 
 .header {
-background-color: rgb(0,120,200);
-background-image: url(images/menu.png);
-background-repeat: no-repeat;
-background-size: 48px 48px;
-background-position: top right;
-padding-left:24px;
-padding-top:16px;
-padding-bottom:8px;
-height:28px;
-color:white;
+  background-color: #0078c8;
+  background-image: url("images/menu.png");
+  background-position: right top;
+  background-repeat: no-repeat;
+  background-size: 48px 48px;
+  color: #ffffff;
+  padding: 16px 0;
+  position: fixed;
+  width: 100%;
+  z-index: 2;
+}
+
+
+#title {
+  font-weight: 600;
+  margin-left: 24px;
 }
 
 .menu {
@@ -74,7 +94,7 @@ color:white;
   padding: 0;
   position: absolute;
   right: 9999px;
-  top: 52px;
+  top: 50px;
   z-index: 100;
 }
 
@@ -83,58 +103,71 @@ color:white;
 }
 
 .menu li {
-    list-style: none;
+  list-style: none;
 }
 
 .menu li a {
-  display:block;
+  display: block;
   padding: 15px 40px;
   background: rgb(100,180,220);
-    color:rgb(0, 0, 102);
+  color: rgb(0, 0, 102);
 }
 
 .menu li a:hover {
   background: rgb(200,220,230);
-    color: rgb(0,120,200);
+  color: rgb(0,120,200);
 }
 
 
 .vocab h4 {
-    margin-bottom:0px;
-    margin-top:36px
+  margin-bottom: 0px;
+  margin-top: 28px
 }
 
 .vocab p {
-    padding-left:15px;
-    margin-top:12px;
-    margin-bottom:12px
+  margin-bottom: 2px;
+  margin-left: 15px;
+  margin-top: 12px;
 }
 
 .vocab audio {
-    padding-left:15px;
+    padding-left: 15px;
 }
 
-.example p {
-    padding-left:15px;
-    margin:5px;
-    font-style: italic;
+p.example {
+  margin: 2px 15px;
+  font-style: italic;
 }
 
 .example {
-    background: rgb(200,220,230); 
-    padding:8px
+  background: rgb(200,220,230);
+  display: table;
+  padding: 8px
 }
 
-.example ul li {
-  font-style: italic;
+ol.example {
+  padding: 8px 34px;
+}
+
+ul.example {
   list-style: outside none none;
+  margin: 4px 0;
+  padding: 8px 24px;
+}
+
+.example li {
+  font-style: italic;
+}
+
+.example .label {
+  font-style: normal;
 }
 
 .question_pair {
-    margin:18px
+  margin: 18px
 }
 
 .question_pair p {
-    margin-top:3px;
-    margin-bottom:0px
+  margin-top: 3px;
+  margin-bottom: 0px
 }
