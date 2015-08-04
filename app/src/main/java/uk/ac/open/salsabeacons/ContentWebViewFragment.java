@@ -82,10 +82,11 @@ public class ContentWebViewFragment extends WebViewFragment {
     }
     WebView view = getWebView();
     view.loadUrl(mContentUrl);
+    WebSettings webSettings = view.getSettings();
+    webSettings.setJavaScriptEnabled(true);
+    mWebAppInterface = new WebAppInterface(view.getContext());
+    view.addJavascriptInterface(mWebAppInterface, "AndroidVersion");
     if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-      WebSettings webSettings = view.getSettings();
-      webSettings.setJavaScriptEnabled(true);
-      mWebAppInterface = new WebAppInterface(view.getContext());
       view.addJavascriptInterface(mWebAppInterface, "Android");
     }
   }

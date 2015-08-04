@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <string name="salsa_app_version">0.67</string>
-
     <string name="app_name">Salsa beacons</string>
     <string name="main_activity">beacons</string>
     <string name="content_web_view">content</string>
@@ -13,7 +10,7 @@
     <string name="action_show_deleted">show deleted</string>
     <string name="title_activity_beacon_info">Beacon Information</string>
     <string name="scanning">Searching for beacons...</string>
-    <string name="non_scanning">Beacons you\'ve been close to</string>
+    <string name="non_scanning">Beacons you have visited</string>
     <string name="notification">A beacon has been detected</string>
 
     <string name="bluetooth_enabled">Bluetooth has now been enabled</string>

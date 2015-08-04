@@ -67,8 +67,6 @@ public class MonitoringActivity extends Activity implements BeaconListFragment.O
     mDirSpecifier = userLocale.getLanguage().equals("en") ? "" : "-" + userLocale.getLanguage();
     Resources res = getResources();
     String appName = res.getString(R.string.main_activity);
-    String version = res.getString(R.string.salsa_app_version);
-    //setTitle(appName+" "+version);
     setTitle(appName);
     setContentView(R.layout.activity_monitoring);
     ContentWebViewFragment contentFragment = (ContentWebViewFragment) getFragmentManager()

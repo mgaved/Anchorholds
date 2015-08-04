@@ -22,6 +22,8 @@
 package uk.ac.open.salsabeacons;
 
 import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.content.res.AssetFileDescriptor;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
@@ -73,4 +75,18 @@ public class WebAppInterface {
     }
   }
 
+  /** returns the app version number */
+  @JavascriptInterface
+  public String getVersion() {
+    PackageManager packageManager = mContext.getPackageManager();
+    String versionName = "";
+    try {
+      PackageInfo packageInfo = packageManager.getPackageInfo(mContext.getPackageName(), 0);
+      versionName = packageInfo.versionName;
+    } catch (PackageManager.NameNotFoundException e) {
+      versionName = "";
+    }
+    Log.d(TAG, versionName);
+    return versionName;
+  }
 }

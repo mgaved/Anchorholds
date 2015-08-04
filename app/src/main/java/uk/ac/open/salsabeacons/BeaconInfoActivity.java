@@ -32,7 +32,6 @@ import android.webkit.WebView;
 
 public class BeaconInfoActivity extends Activity {
   private final String TAG = "BeaconInfoActivity";
-  private final int sdkVersion = Build.VERSION.SDK_INT;
 
   private WebView mWebView;
   private WebAppInterface mWebAppInterface;
@@ -47,7 +46,7 @@ public class BeaconInfoActivity extends Activity {
     mUrl = intent.getData().toString();
     mWebView = (WebView) findViewById(R.id.webview);
     mWebView.loadUrl(mUrl);
-    if (sdkVersion < Build.VERSION_CODES.LOLLIPOP) {
+    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
       WebSettings webSettings = mWebView.getSettings();
       webSettings.setJavaScriptEnabled(true);
       mWebAppInterface = new WebAppInterface(this);
