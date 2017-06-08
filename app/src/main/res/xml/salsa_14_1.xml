@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ This file is part of Salsa Beacons
+  ~
+  ~ Salsa Beacons is a Bluetooth LE aware Android app that enables location dependant learning
+  ~ author:  Richard Greenwood <richard.greenwood@open.ac.uk>
+  ~ Copyright (C) 2015 The Open University
+  ~
+  ~ Salsa Beacons is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ any later version.
+  ~
+  ~ Salsa Beacons is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with Salsa Beacons.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<!--
+    This template contains details for creating a beacon instance configuration file.
+    Each file should be named with the prefix 'beacon' followed by the beacon major id and then
+    the beacon minor id separated using underscores e.g. salsa_1_1.
+ -->
+
+<beacon>
+    <!-- The title of the beacon -->
+    <title>Broadway Bridge</title>
+    <!-- uri should contain either a file:/// pointer or a http:// or https:// pointer -->
+    <uri>file:///android_asset/14_broadway_bridge/index.html</uri>
+    <!--
+        occurrence_validity_distance is the distance in meters which is deemed as being contact
+        with with the device
+    -->
+    <occurrence_validity_distance>10</occurrence_validity_distance>
+    <!--
+        occurrence_validity_period is the time in seconds between the beacon being within
+        its occurrence_validity_distance which then constitutes a new occurrence
+    -->
+    <occurrence_validity_period>216000</occurrence_validity_period> <!-- 6 hours -->
+</beacon>
