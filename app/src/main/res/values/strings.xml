@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Salsa beacons</string>
+    <string name="app_name">Anchorholds</string>
     <string name="main_activity">Anchorholds</string>
     <string name="content_web_view">content</string>
-    <string name="beaconInfo">Beacon info</string>
+    <string name="beaconInfo">Anchorhold info</string>
     <string name="action_about">About</string>
     <string name="action_help">Help</string>
     <string name="action_terms">Terms</string>
     <string name="action_show_deleted">show deleted</string>
-    <string name="title_activity_beacon_info">Beacon Information</string>
-    <string name="scanning">Searching for beacons...</string>
+    <string name="title_activity_beacon_info">Anchorhold Information</string>
+    <string name="scanning">Searching for Anchorholds...</string>
     <string name="non_scanning">Anchorholds you have visited</string>
-    <string name="notification">A beacon has been detected</string>
+    <string name="notification">An Anchorhold has been detected</string>
 
     <string name="bluetooth_enabled">Bluetooth has now been enabled</string>
     <string name="bluetooth_not_enabled_title">Bluetooth not enabled</string>
@@ -19,11 +19,11 @@
     <string name="bluetooth_LE_not_available_title">Bluetooth LE not available</string>
     <string name="bluetooth_LE_not_available_message">Sorry, this device does not support Bluetooth LE.</string>
 
-    <string name="no_salsa_beacons_present">No Salsa Beacons</string>
+    <string name="no_salsa_beacons_present">No Anchorholds</string>
     <string name="selected">selected</string>
     <string name="delete_action">Delete</string>
     <string name="cancel_action">Cancel</string>
-    <string name="dialog_delete_beacon_title">Deleted Salsa beacon?</string>
+    <string name="dialog_delete_beacon_title">Deleted Anchorhold?</string>
     <string name="dialog_delete_beacon_message">Are you sure you want to delete: \"%1$s\"</string>
 
     <string name="region">Region</string>
