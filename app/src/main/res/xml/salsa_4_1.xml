@@ -31,7 +31,7 @@
     <!-- The title of the beacon -->
     <title>The Creek Road Bridge</title>
     <!-- uri should contain either a file:/// pointer or a http:// or https:// pointer -->
-    <uri>file:///android_asset/4_ccreek_road_bridge/index.html</uri>
+    <uri>file:///android_asset/4_creek_road_bridge/index.html</uri>
     <!--
         occurrence_validity_distance is the distance in meters which is deemed as being contact
         with with the device
