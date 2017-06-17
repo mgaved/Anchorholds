@@ -3,7 +3,7 @@
 <html lang="en">
 
   <head>
-    <title>Aileen Ford</title>
+    <title>The Hoy Kitchen</title>
     <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css" href="../main.css"/>
     <script src="../js/kitkat_workaround.js"></script>
@@ -12,7 +12,7 @@
   <body>
 
     <div class="header">
-      <h1>Aileen Ford</h1>
+      <h1>The Hoy Kitchen</h1>
       <ul class="menu">
         <li><a href="index.html">Home</a></li>
         <li><a href="history.html">History</a></li>
@@ -24,15 +24,26 @@
     
     <div class="container">
 
+      <h2>Introduction</h2>
+   
+      <img src="../images/2_image_1.jpg" class="bg-img">
 
-      <h2>Environment</h2>
+      <div class="index">
+        <ol>
+     <li><a href="index.html">Home</a></li>
+        <li><a href="history.html">History</a></li>
+        <li><a href="environment.html">Environment</a></li>
+        <li><a href="social.html">Social</a></li>
+        <li><a href="map.html">Map</a></li>
+        </ol>
+      </div>
 
-      <p>We want your stories about Aileen Ford! tell us your stories, tell us what you know, what you'd like to know.</p>
+      <p>We want your stories about the Hoy Kitchen! tell us your stories, tell us what you know, what you'd like to know.</p>
 
       <p>Contact us here... (email).</p>
 
     </div>
 
   </body>
-  
+
 </html>

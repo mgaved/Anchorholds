@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+  <head>
+    <title>The Ranger's Hut, Brookmill Park</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="../main.css"/>
+    <script src="../js/kitkat_workaround.js"></script>
+  </head>
+    
+  <body>
+
+    <div class="header">
+      <h1>The Ranger's Hut, Brookmill Park</h1>
+      <ul class="menu">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="history.html">History</a></li>
+        <li><a href="environment.html">Environment</a></li>
+        <li><a href="social.html">Social</a></li>
+        <li><a href="map.html">Map</a></li>
+      </ul>
+    </div>
+    
+    <div class="container">
+
+      <h2>Introduction</h2>
+   
+      <img src="../images/12_image_1.jpg" class="bg-img">
+
+      <div class="index">
+        <ol>
+     <li><a href="index.html">Home</a></li>
+        <li><a href="history.html">History</a></li>
+        <li><a href="environment.html">Environment</a></li>
+        <li><a href="social.html">Social</a></li>
+        <li><a href="map.html">Map</a></li>
+        </ol>
+      </div>
+
+      <p>The Rangers hut in Brookmill Park fell out of regular use when the old keeper was retired but survived the vandalism that threatened similar park structures. Following change in policy for all 50 of the Lewisham parks, keepers from across the borough were out of work if not rehired by the new maintenance contractors Glendale.
+<P></P>
+During early summer of 2016, SPC helped establish a base there for Friends of Brookmill Park, and Redstart Arts, clearing out the accumulation of mud, rugs and pond maintenance equipment, replacing it with plan chest, artist easel and preparing it to accommodate monthly meetings and weekly workshops.
+<P></P>
+The Mazi pilot – Creeknet has begun working with the friends group of local residents and users of the park to improve on existing website and public information systems as well as preparing a Mazizone for those seeking to share media files – images stories and keep in touch with the friends group about meetings schedules and public events in the park.
+<P></P>
+Today, exterior lighting, security and a more complete image of it’s future use in community hands is emerging and proving popular. Park noticeboards feature more regularly updated information and some fresh planting to compliment the corporate maintenance work, has begun.
+<P></P>
+The park is gaining popularity for its quality wildlife environment as well as reputation as a clean and safe place for young children, bird watchers, walkers as well as those living locally seeking a sanctuary of peace and beauty..</p>
+
+      <p>Please post your story to <a href="mailto:rangershuth@deptfordcreek.net?subject=Rangershut">rangershut@deptfordcreek.net</a></p>
+
+    </div>
+
+  </body>
+
+</html>

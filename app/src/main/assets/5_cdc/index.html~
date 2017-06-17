@@ -3,7 +3,7 @@
 <html lang="en">
 
   <head>
-    <title>Aileen Ford</title>
+    <title>Creekside Discovery Centre</title>
     <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css" href="../main.css"/>
     <script src="../js/kitkat_workaround.js"></script>
@@ -12,7 +12,7 @@
   <body>
 
     <div class="header">
-      <h1>Aileen Ford</h1>
+      <h1>Creekside Discovery Centre</h1>
       <ul class="menu">
         <li><a href="index.html">Home</a></li>
         <li><a href="history.html">History</a></li>
@@ -24,27 +24,26 @@
     
     <div class="container">
 
-      <h2>Social</h2>
+      <h2>Introduction</h2>
+   
+      <img src="../images/5_image_1.jpg" class="bg-img">
 
-      <img src="../images/11_image_2.jpg" class="bg-img">
+      <div class="index">
+        <ol>
+     <li><a href="index.html">Home</a></li>
+        <li><a href="history.html">History</a></li>
+        <li><a href="environment.html">Environment</a></li>
+        <li><a href="social.html">Social</a></li>
+        <li><a href="map.html">Map</a></li>
+        </ol>
+      </div>
 
-       <p>We want your stories about Aileen Ford! tell us your stories, tell us what you know, what you'd like to know.</p>
+      <p>We want your stories about the Creekside Discovery Centre! tell us your stories, tell us what you know, what you'd like to know.</p>
 
       <p>Contact us here... (email).</p>
 
-      <h4>Listen</h4>
-  
-      <audio controls>
-        Your browser does not support the <code>audio</code> element.
-        <source src="../audio/12_dialogue.mp3" type="audio/mpeg">
-      </audio>
-
-      <div class="dialogue_index">
-        <a href="transcript.html"><p>Transcript: do we also offer a transcript? (this link is currently dead)</p></a>
-      </div> 
-    
     </div>
 
   </body>
-  
+
 </html>

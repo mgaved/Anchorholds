@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+    <head>
+        <title>Creek Road Bridge</title>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" type="text/css" href="../main.css" />
+        <script src="../js/kitkat_workaround.js"></script>
+    </head>
+
+    <body>
+
+        <div class="header">
+             <h1>Creek Road Bridge</h1>
+            <ul class="menu">
+                <li><a href="index.html">Home</a>
+                </li>
+                <li><a href="history.html">History</a>
+                </li>
+                <li><a href="environment.html">Environment</a>
+                </li>
+                <li><a href="social.html">Social</a>
+                </li>
+                <li><a href="map.html">Map</a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="container">
+
+             <h2>Introduction</h2>
+
+            <img src="../images/4_image_1.jpg" class="bg-img">
+
+            <div class="index">
+                <ol>
+                    <li><a href="index.html">Home</a>
+                    </li>
+                    <li><a href="history.html">History</a>
+                    </li>
+                    <li><a href="environment.html">Environment</a>
+                    </li>
+                    <li><a href="social.html">Social</a>
+                    </li>
+                    <li><a href="map.html">Map</a>
+                    </li>
+                </ol>
+            </div>
+
+            <p>The lift bridge on Creek Road (the A200 from London to Greenwich) crosses the tidal creek of the River Ravensbourne. It was built c.1954 to replace an earlier structure. As of 2015 it was still being lifted regularly at high tide for boatloads
+                of aggregates to reach the adjacent concrete batching plant.
+
+            </p>
+
+            <p>Please post your story or questions to creekroadbridge@deptfordcreek.net
+
+        </div>
+
+    </body>
+
+</html>

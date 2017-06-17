@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+  <head>
+    <title>Ha'penny Hatch Bridge</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="../main.css"/>
+    <script src="../js/kitkat_workaround.js"></script>
+  </head>
+    
+  <body>
+
+    <div class="header">
+      <h1>Ha'penny Hatch Bridge</h1>
+      <ul class="menu">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="history.html">History</a></li>
+        <li><a href="environment.html">Environment</a></li>
+        <li><a href="social.html">Social</a></li>
+        <li><a href="map.html">Map</a></li>
+      </ul>
+    </div>
+    
+    <div class="container">
+
+      <h2>Introduction</h2>
+   
+      <img src="../images/7_image_1.jpg" class="bg-img">
+
+      <div class="index">
+        <ol>
+     <li><a href="index.html">Home</a></li>
+        <li><a href="history.html">History</a></li>
+        <li><a href="environment.html">Environment</a></li>
+        <li><a href="social.html">Social</a></li>
+        <li><a href="map.html">Map</a></li>
+        </ol>
+      </div>
+
+      <p>There was famously a wooden bridge at this crossing point which charged a toll until it was closed in 1920’s after falling into disrepair.
+<P></P>
+It’s modern replacement is a steel lifting mechanism opened in 2002, which continues to allow access for boats that occasionally make their way up and down the creek. A long local campaign and collaboration from all sectors of the local community succeeded in getting it designed and built.
+<P></P>
+One of it’s key protagonists Pete Pope died in 2012 and his ashes were scattered into the creek from here in noisy celebration..
+
+Please post your story or questions to <a href="mailto:hapennyhatch@deptfordcreek.net?subject=HapennyhatchAnchorhold">hapennyhatch@deptfordcreek.net</a>.
+
+    </div>
+
+  </body>
+
+</html>
